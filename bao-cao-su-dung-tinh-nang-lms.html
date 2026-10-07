@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bản đồ sử dụng Moodle LHU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column (max 1180px), sticky year rail, sections = summary first then detail. */
+:root {
+  --bg: #f4f6f9; --surface: #fcfcfd; --surface-2: #eef1f5;
+  --ink: #0c1018; --ink-2: #4a5160; --muted: #7d8494;
+  --grid: #e2e6ec; --base: #c3c9d3; --line: rgba(12,16,24,.09);
+  --accent: #2a78d6; --accent-ink: #1c5cab; --accent-wash: rgba(42,120,214,.10);
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4; --s6: #008300; --s-other: #b4bac5;
+  --t-core: #184f95; --t-imp: #3987e5; --t-base: #86b6ef; --t-low: #c3c9d3;
+  --good: #006300;
+  --font-ui: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --r: 14px;
+}
+:root[data-theme="dark"] {
+  --bg: #0b0d11; --surface: #15181e; --surface-2: #1c2028;
+  --ink: #f5f7fa; --ink-2: #c0c6d1; --muted: #8b92a0;
+  --grid: #262b34; --base: #3a404b; --line: rgba(255,255,255,.09);
+  --accent: #3987e5; --accent-ink: #86b6ef; --accent-wash: rgba(57,135,229,.16);
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s-other: #4a515d;
+  --t-core: #b7d3f6; --t-imp: #5598e7; --t-base: #256abf; --t-low: #3a404b;
+  --good: #0ca30c; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 15px/1.6 var(--font-ui); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px); }
+h1, h2, h3 { text-wrap: balance; margin: 0; letter-spacing: -0.02em; }
+h1 { font-size: clamp(30px, 5vw, 50px); line-height: 1.08; font-weight: 800; }
+h2 { font-size: clamp(22px, 3vw, 30px); line-height: 1.2; font-weight: 800; }
+h3 { font-size: 16px; line-height: 1.35; font-weight: 700; letter-spacing: -0.005em; }
+p { margin: 0; }
+code, .mono { font-family: var(--font-mono); font-size: .86em; }
+.eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.lead { color: var(--ink-2); font-size: 17px; max-width: 64ch; }
+.muted { color: var(--muted); }
+.num { font-variant-numeric: tabular-nums; }
+
+/* hero */
+header.hero { padding-block: clamp(36px, 7vw, 72px) 28px; display: grid; gap: 20px; }
+.hero .title-row { display: grid; gap: 14px; }
+.hero h1 span { color: var(--accent); }
+.coverage { margin-top: 6px; display: grid; gap: 8px; max-width: 760px; }
+.cov-track { position: relative; height: 34px; }
+.cov-line { position: absolute; left: 0; right: 0; top: 10px; height: 6px; border-radius: 6px; background: var(--surface-2); }
+.cov-db { position: absolute; top: 10px; height: 6px; border-radius: 6px; background: var(--base); }
+.cov-log { position: absolute; top: 6px; height: 14px; border-radius: 4px; background: var(--accent); }
+.cov-ticks { position: absolute; left: 0; right: 0; top: 22px; display: flex; justify-content: space-between; font: 500 11px/1 var(--font-mono); color: var(--muted); }
+.cov-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--ink-2); }
+.key { display: inline-flex; align-items: center; gap: 7px; }
+.sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; flex: none; }
+
+/* sticky rail */
+.rail { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.rail .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; padding-block: 10px; }
+.rail-label { font-size: 13px; font-weight: 600; color: var(--ink-2); }
+.chips { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; max-width: 100%; padding: 3px; background: var(--surface-2); border-radius: 999px; }
+.chips::-webkit-scrollbar { display: none; }
+.chip { appearance: none; border: 0; background: transparent; color: var(--ink-2); font: 600 13px/1 var(--font-ui); padding: 8px 12px; border-radius: 999px; cursor: pointer; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.theme-btn { appearance: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); font: 600 12.5px/1 var(--font-ui); padding: 8px 12px; border-radius: 999px; cursor: pointer; white-space: nowrap; }
+.theme-btn:hover { color: var(--ink); }
+.chip:hover { color: var(--ink); background: var(--accent-wash); }
+.chip[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.12), 0 0 0 1px var(--line); }
+.chip .partial { font-weight: 500; color: var(--muted); font-size: 11px; margin-left: 3px; }
+.toc { display: flex; gap: 14px; margin-left: auto; font-size: 13px; flex-wrap: wrap; }
+.toc a { color: var(--ink-2); text-decoration: none; font-weight: 500; }
+.toc a:hover { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+/* sections */
+section.sec { padding-block: 56px 8px; display: grid; gap: 22px; scroll-margin-top: 70px; }
+.sec-head { display: grid; gap: 8px; max-width: 760px; }
+.sec-head .idx { font: 500 12px/1 var(--font-mono); color: var(--accent-ink); }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: clamp(16px, 2.4vw, 24px); display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; min-width: 0; container-type: inline-size; }
+.panel-head { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: flex-end; justify-content: space-between; }
+.panel-head > div:not(.seg) { display: grid; gap: 3px; min-width: 0; }
+.panel-head .sub { font-size: 13px; color: var(--muted); }
+.grid2 { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); }
+.grid3 { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+.split { display: grid; gap: 18px; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); }
+@media (max-width: 900px) { .split { grid-template-columns: minmax(0, 1fr); } }
+
+/* KPI */
+.kpis { display: flex; flex-wrap: wrap; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.kpi { flex: 1 1 180px; background: var(--surface); padding: 18px 20px; display: grid; gap: 4px; align-content: start; }
+.kpi .v { font-size: clamp(26px, 3.4vw, 34px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
+.kpi .l { font-size: 13px; color: var(--ink-2); }
+.kpi .d { font-size: 12px; color: var(--muted); }
+
+/* segmented */
+.seg { display: inline-flex; padding: 3px; gap: 2px; background: var(--surface-2); border-radius: 10px; flex-wrap: nowrap; overflow-x: auto; max-width: 100%; scrollbar-width: none; }
+.seg button { white-space: nowrap; }
+.seg button { appearance: none; border: 0; background: transparent; color: var(--ink-2); font: 600 12.5px/1 var(--font-ui); padding: 8px 11px; border-radius: 8px; cursor: pointer; }
+.seg button:hover { color: var(--ink); }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
+
+/* hbar */
+.hb { display: grid; gap: 2px; }
+.hb-row { display: grid; grid-template-columns: minmax(130px, 36%) minmax(0, 1fr) 84px; gap: 12px; align-items: center; padding: 5px 6px; border-radius: 8px; cursor: default; }
+.hb-row:hover, .hb-row:focus-visible { background: var(--accent-wash); }
+.hb-lab { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+.hb-lab .nm { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.hb-lab code { color: var(--muted); font-size: 11.5px; white-space: nowrap; }
+.hb-track { height: 14px; position: relative; }
+.hb-bar { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 0 4px 4px 0; min-width: 2px; transition: width .45s cubic-bezier(.2,.7,.2,1); }
+.hb-val { text-align: right; font-size: 13.5px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.hb-val small { display: block; font-weight: 500; font-size: 11px; color: var(--muted); }
+.hb-empty { font-size: 13px; color: var(--muted); padding: 6px; }
+@container (max-width: 560px) {
+  .hb-row { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "lab val" "bar bar"; gap: 4px 10px; }
+  .hb-lab { grid-area: lab; } .hb-val { grid-area: val; } .hb-track { grid-area: bar; height: 10px; }
+  .hb-val small { display: inline; margin-left: 4px; }
+}
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px; color: var(--ink-2); }
+
+/* tier board */
+.tiers { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); }
+.tier { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; display: grid; gap: 14px; align-content: start; }
+.tier-top { display: grid; gap: 4px; }
+.tier-name { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; }
+.tier-bar { width: 26px; height: 8px; border-radius: 3px; }
+.tier-rule { font-size: 12.5px; color: var(--muted); }
+.tier-group { display: grid; gap: 6px; }
+.tier-group .g { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill { font-size: 12.5px; font-weight: 500; padding: 4px 9px; border-radius: 7px; background: var(--surface-2); color: var(--ink); white-space: nowrap; }
+.pill code { color: var(--muted); font-size: 10.5px; margin-left: 4px; }
+
+/* charts */
+.chart { position: relative; width: 100%; min-width: 0; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+svg text.tick { fill: var(--muted); font: 500 11px var(--font-mono); }
+.gridline { stroke: var(--grid); stroke-width: 1; }
+.baseline { stroke: var(--base); stroke-width: 1; }
+.mult { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.mcard { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px 16px 10px; display: grid; gap: 4px; min-width: 0; }
+.mcard .t { font-size: 13px; font-weight: 600; color: var(--ink-2); }
+.mcard .big { font-size: 24px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; }
+.mcard .big small { font-size: 12px; font-weight: 500; color: var(--muted); letter-spacing: 0; margin-left: 4px; }
+.delta { font-size: 12px; font-weight: 600; }
+
+/* share bar */
+.share { display: flex; height: 26px; gap: 2px; border-radius: 6px; overflow: hidden; }
+.share > div { min-width: 2px; transition: flex-basis .4s; }
+
+/* callouts */
+.callout { display: grid; gap: 6px; padding: 18px 20px; border-radius: var(--r); background: var(--accent-wash); }
+.callout .big { font-size: clamp(40px, 6vw, 60px); font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--accent-ink); }
+.facts { display: grid; gap: 1px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); background: var(--line); border-radius: 10px; overflow: hidden; border: 1px solid var(--line); }
+.fact { background: var(--surface); padding: 12px 14px; display: grid; gap: 2px; }
+.fact .v { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+.fact .l { font-size: 12px; color: var(--muted); line-height: 1.35; }
+
+.findings { display: grid; gap: 12px; counter-reset: f; padding: 0; margin: 0; list-style: none; }
+.findings li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; font-size: 14.5px; color: var(--ink-2); max-width: 90ch; }
+.findings li::before { counter-increment: f; content: counter(f); font: 600 12px/26px var(--font-mono); text-align: center; height: 26px; border-radius: 7px; background: var(--surface-2); color: var(--ink); }
+.findings b { color: var(--ink); font-weight: 600; }
+
+/* LMS 2027 section: whole section collapsed by default */
+.sec-fold > summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: start; }
+.sec-fold > summary::-webkit-details-marker { display: none; }
+.sec-fold > summary::after { content: "Mở"; font: 600 13px/1 var(--font-ui); color: var(--accent-ink); padding: 9px 14px; border-radius: 999px; background: var(--accent-wash); margin-top: 20px; white-space: nowrap; }
+.sec-fold[open] > summary::after { content: "Thu gọn"; }
+.sec-fold > summary:hover h2 { color: var(--accent-ink); }
+.sec-fold[open] > .reqs { margin-top: 22px; }
+
+/* LMS 2027 requirements: flat list, collapsed by default */
+.reqs { border-top: 1px solid var(--grid); }
+.req { border-bottom: 1px solid var(--grid); }
+.req summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 120px minmax(0, 1fr) auto 20px; gap: 6px 16px; align-items: baseline; padding: 14px 4px; }
+.req summary::-webkit-details-marker { display: none; }
+.req summary:hover { background: var(--accent-wash); }
+.req summary::after { content: "+"; font: 500 17px/1 var(--font-mono); color: var(--muted); text-align: right; }
+.req[open] summary::after { content: "−"; }
+.req-tag { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
+.req-tag .sw { width: 8px; height: 8px; border-radius: 2px; }
+.req .tt { font-size: 15.5px; font-weight: 700; color: var(--ink); }
+.req .ev { font: 500 12px/1.5 var(--font-mono); color: var(--muted); text-align: right; }
+.req ul { margin: 0; padding: 0 4px 16px calc(120px + 20px); list-style: disc; display: grid; gap: 6px; color: var(--ink-2); font-size: 14px; line-height: 1.55; max-width: 110ch; }
+.req ul li { margin-left: 18px; }
+.req ul b { color: var(--ink); font-weight: 600; }
+@media (max-width: 720px) {
+  .req summary { grid-template-columns: minmax(0, 1fr) 20px; }
+  .req-tag { grid-column: 1; } .req .tt { grid-column: 1; } .req .ev { grid-column: 1; text-align: left; }
+  .req summary::after { grid-column: 2; grid-row: 1; }
+  .req ul { padding-left: 4px; }
+}
+
+/* usage table */
+.ut-wrap { overflow-x: auto; margin-inline: -4px; }
+.ut { min-width: 860px; }
+.ut td, .ut th { white-space: nowrap; }
+.ut td:first-child, .ut th:first-child { position: static; }
+.ut tr.grp td { background: var(--surface-2); font-weight: 700; color: var(--ink); text-align: left; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; }
+.ut .cb { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
+.ut .cb i { display: block; height: 8px; border-radius: 0 3px 3px 0; background: var(--accent); min-width: 1px; }
+.ut .cb .tr { width: 70px; background: var(--surface-2); border-radius: 0 3px 3px 0; display: flex; }
+.mixnums { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 14px; }
+.mixnum { display: grid; gap: 2px; }
+.mixnum .v { font-size: clamp(28px, 4vw, 40px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; }
+.mixnum .l { display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--ink-2); }
+.note { font-size: 12.5px; color: var(--muted); max-width: 90ch; }
+
+/* tables */
+details.tbl { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+details.tbl summary { cursor: pointer; padding: 14px 18px; font-weight: 600; font-size: 14.5px; list-style: none; display: flex; justify-content: space-between; gap: 10px; }
+details.tbl summary::-webkit-details-marker { display: none; }
+details.tbl summary::after { content: "+"; font: 500 18px/1 var(--font-mono); color: var(--muted); }
+details.tbl[open] summary::after { content: "−"; }
+.tbl-wrap { overflow-x: auto; padding: 0 18px 16px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums; }
+th, td { padding: 7px 10px; text-align: right; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface); }
+thead th { font-size: 11.5px; color: var(--muted); font-weight: 600; letter-spacing: .02em; }
+td.all, th.all { font-weight: 700; }
+td code { color: var(--muted); margin-left: 6px; }
+.tbl-note { font-size: 12px; color: var(--muted); padding: 0 18px 14px; }
+
+/* tooltip */
+.tip { position: fixed; z-index: 50; pointer-events: none; background: var(--ink); color: var(--bg); border-radius: 9px; padding: 9px 12px; font-size: 12.5px; line-height: 1.45; max-width: 280px; box-shadow: 0 8px 24px rgba(0,0,0,.22); opacity: 0; transform: translateY(4px); transition: opacity .12s, transform .12s; }
+.tip.on { opacity: 1; transform: none; }
+.tip b { font-weight: 700; }
+.tip .r { display: flex; justify-content: space-between; gap: 14px; font-variant-numeric: tabular-nums; }
+.tip .r span:first-child { opacity: .72; }
+
+ul.method { color: var(--ink-2); font-size: 14px; display: grid; gap: 6px; padding-left: 18px; max-width: 90ch; margin: 0; }
+footer { padding-block: 40px 56px; color: var(--muted); font-size: 12.5px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<header class="hero wrap">
+  <div class="title-row">
+    <div class="eyebrow">Khảo sát cho LMS mới 2027 · Moodle 3.10.7 · learn.lhu.edu.vn</div>
+    <h1>Tính năng nào thật sự <span>đang được dùng</span> trên Moodle LHU</h1>
+    <p class="lead">Thống kê loại hoạt động, loại tài nguyên và loại câu hỏi theo từng năm và toàn thời gian, để quyết định LMS mới năm 2027 cần làm tính năng nào, làm trước tính năng nào và bỏ tính năng nào.</p>
+  </div>
+  <div class="coverage" aria-label="Phạm vi dữ liệu">
+    <div class="cov-track" id="cov"></div>
+    <div class="cov-legend">
+      <span class="key"><span class="sw" style="background:var(--base)"></span>Dữ liệu khóa học, câu hỏi, bài làm (2018 → 07/10/2026)</span>
+      <span class="key"><span class="sw" style="background:var(--accent)"></span>Nhật ký truy cập còn lưu (14/01 → 07/10/2026)</span>
+    </div>
+  </div>
+</header>
+
+<nav class="rail" aria-label="Bộ lọc năm">
+  <div class="wrap">
+    <span class="rail-label">Xem theo năm</span>
+    <div class="chips" id="years" role="group" aria-label="Chọn năm"></div>
+    <div class="toc">
+      <a href="#tong-quan">Tổng quan</a><a href="#uu-tien">Ưu tiên</a><a href="#hoat-dong">Hoạt động</a><a href="#tai-nguyen">Tài nguyên</a><a href="#cau-hoi">Câu hỏi</a><a href="#chi-tiet">Bảng số liệu</a><a href="#lms-2027">LMS 2027</a>
+      <button type="button" class="theme-btn" id="theme-btn" aria-pressed="false">Giao diện tối</button>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<section class="sec" id="tong-quan">
+  <div class="sec-head"><span class="idx">01</span><h2>Quy mô và xu hướng</h2>
+    <p class="lead">Mức sử dụng tăng vọt năm 2020–2021 khi học trực tuyến, rồi ổn định. Quiz và câu hỏi trắc nghiệm vẫn tăng đều đến 2026.</p></div>
+  <div class="kpis" id="kpis"></div>
+  <div class="grid2">
+    <div class="panel">
+      <div class="panel-head"><div><h3>Hoạt động và tài nguyên</h3><span class="sub" id="mix-sub"></span></div></div>
+      <div class="mixnums" id="mix-nums"></div>
+      <div class="share" id="mix-bar"></div>
+      <p class="note" id="mix-note"></p>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><div><h3>Tạo mới theo năm</h3><span class="sub">Hoạt động và tài nguyên thêm vào khóa học mỗi năm</span></div></div>
+      <div class="legend" id="mix-legend"></div>
+      <div class="chart" id="mix-stack"></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><div><h3>Tỷ lệ và tần suất sử dụng theo loại</h3><span class="sub" id="ut-sub"></span></div></div>
+    <div class="ut-wrap"><table class="ut" id="ut"></table></div>
+    <p class="note">Tần suất chỉ đo được cho năm 2026 vì nhật ký truy cập các năm trước đã bị xóa. “Lượt truy cập trên mỗi mục” chia cho tổng số mục hiện có, gồm cả mục cũ không còn ai dùng. Nhãn (Label) không ghi nhật ký xem. Diễn đàn gồm diễn đàn Thông báo tự tạo ở mỗi khóa.</p>
+  </div>
+  <div class="mult" id="trend"></div>
+  <p class="muted" style="font-size:12.5px">Điểm rỗng là năm 2026, chỉ tính đến 07/10/2026. Mỗi biểu đồ có thang đo riêng.</p>
+</section>
+
+<section class="sec" id="uu-tien">
+  <div class="sec-head"><span class="idx">02</span><h2>Mức ưu tiên tính năng</h2>
+    <p class="lead">Phân loại dựa trên số người dùng thật năm 2026 và lượng nội dung tạo mới gần đây.</p></div>
+  <div class="tiers" id="tiers"></div>
+  <div class="panel">
+    <h3>Nhận định chính</h3>
+    <ol class="findings" id="findings"></ol>
+  </div>
+</section>
+
+<section class="sec" id="hoat-dong">
+  <div class="sec-head"><span class="idx">03</span><h2>Loại hoạt động</h2>
+    <p class="lead">Quiz và Assignment chiếm phần lớn tương tác. Lesson và SCORM còn kho nội dung lớn nhưng lượt dùng giảm dần.</p></div>
+  <div class="split">
+    <div class="panel">
+      <div class="panel-head">
+        <div><h3 id="act-title">Xếp hạng hoạt động</h3><span class="sub" id="act-sub"></span></div>
+        <div class="seg" id="act-metric"></div>
+      </div>
+      <div class="legend" id="tier-legend-a"></div>
+      <div class="hb" id="act-bars"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><div><h3>Người dùng truy cập năm 2026</h3><span class="sub">Theo nhật ký, số tài khoản khác nhau, 14/01 → 07/10/2026</span></div></div>
+      <div class="hb" id="log-bars"></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><div><h3>Diễn đàn: thông báo hay thảo luận?</h3><span class="sub" id="forum-sub">Moodle tự tạo một diễn đàn Thông báo cho mỗi khóa học, làm số diễn đàn bị phồng.</span></div></div>
+    <div class="grid2">
+      <div class="facts" id="forum-facts"></div>
+      <div class="hb" id="forum-bars"></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="tai-nguyen">
+  <div class="sec-head"><span class="idx">04</span><h2>Loại tài nguyên</h2>
+    <p class="lead">Trang (Page) là tài nguyên phổ biến nhất và phần lớn dùng để nhúng video, tài liệu từ YouTube và Google Drive. Tệp tải lên chủ yếu là PDF.</p></div>
+  <div class="panel">
+    <div class="panel-head"><div><h3>Tài nguyên tạo mới theo năm</h3><span class="sub">Số tài nguyên thêm vào khóa học mỗi năm, theo loại</span></div></div>
+    <div class="legend" id="res-legend"></div>
+    <div class="chart" id="res-stack"></div>
+  </div>
+  <div class="split">
+    <div class="panel">
+      <div class="panel-head">
+        <div><h3>Xếp hạng tài nguyên</h3><span class="sub" id="res-sub"></span></div>
+        <div class="seg" id="res-metric"></div>
+      </div>
+      <div class="legend" id="tier-legend-r"></div>
+      <div class="hb" id="res-bars"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><div><h3>Trang có nội dung nhúng</h3><span class="sub" id="page-sub"></span></div></div>
+      <div class="callout"><div class="big" id="page-big"></div><div id="page-text" style="font-size:14px;color:var(--ink-2)"></div></div>
+      <div class="facts" id="page-facts"></div>
+    </div>
+  </div>
+  <div class="grid3">
+    <div class="panel">
+      <div class="panel-head"><div><h3>Định dạng tệp tải lên</h3><span class="sub" id="mime-sub"></span></div><div class="seg" id="mime-metric"></div></div>
+      <div class="hb" id="mime-bars"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><div><h3>Liên kết URL trỏ đến đâu</h3><span class="sub" id="url-sub"></span></div></div>
+      <div class="hb" id="url-bars"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><div><h3>Dung lượng tệp theo thành phần</h3><span class="sub" id="sto-sub"></span></div></div>
+      <div class="hb" id="sto-bars"></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="cau-hoi">
+  <div class="sec-head"><span class="idx">05</span><h2>Loại câu hỏi</h2>
+    <p class="lead">Câu hỏi nhiều lựa chọn chiếm gần như toàn bộ lượt trả lời. Bảy loại câu hỏi phủ 99,7% lượt trả lời năm 2026.</p></div>
+  <div class="split">
+    <div class="panel">
+      <div class="panel-head">
+        <div><h3>Xếp hạng loại câu hỏi</h3><span class="sub" id="q-sub"></span></div>
+        <div class="seg" id="q-metric"></div>
+      </div>
+      <div class="legend" id="tier-legend-q"></div>
+      <div class="hb" id="q-bars"></div>
+    </div>
+    <div style="display:grid;gap:18px;align-content:start;min-width:0">
+      <div class="callout"><span class="eyebrow" id="mc-eyebrow"></span><div class="big" id="mc-big"></div><div id="mc-text" style="font-size:14px;color:var(--ink-2)"></div></div>
+      <div class="panel">
+        <div class="panel-head"><div><h3>Chế độ làm bài của quiz</h3><span class="sub" id="beh-sub"></span></div></div>
+        <div class="share" id="beh-bar"></div>
+        <div class="legend" id="beh-legend"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h3>Cấu hình quiz</h3><span class="sub" id="qset-sub"></span></div></div>
+        <div class="facts" id="qset-facts"></div>
+      </div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><div><h3>Loại nội dung H5P tương tác</h3><span class="sub" id="hvp-sub"></span></div></div>
+    <div class="hb" id="hvp-bars"></div>
+  </div>
+</section>
+
+<section class="sec" id="chi-tiet">
+  <div class="sec-head"><span class="idx">06</span><h2>Bảng số liệu theo năm</h2>
+    <p class="lead">Số liệu đầy đủ cho từng năm và toàn thời gian. Mở từng bảng để xem.</p></div>
+  <div style="display:grid;gap:10px" id="tables"></div>
+</section>
+
+<section class="sec" id="phuong-phap">
+  <div class="sec-head"><span class="idx">07</span><h2>Phương pháp và giới hạn</h2></div>
+  <ul class="method">
+    <li>Dữ liệu lấy trực tiếp từ cơ sở dữ liệu <code>MOODLE_NEW</code> (SQL Server) ngày 07/10/2026, chỉ bằng truy vấn đọc.</li>
+    <li>Năm tính theo giờ Việt Nam, năm dương lịch. Năm 2026 chưa trọn năm.</li>
+    <li>Hoạt động, tài nguyên, quiz: năm lấy theo ngày thêm vào khóa học (<code>course_modules.added</code>). 18.599 quiz có <code>timecreated = 0</code> nên không dùng trường này.</li>
+    <li>Câu hỏi: năm tạo theo <code>question.timecreated</code>; lượt trả lời theo <code>question_attempts.timemodified</code>. Câu hỏi ngẫu nhiên được tính vào loại câu hỏi thật khi học viên làm bài.</li>
+    <li>Nhật ký <code>logstore_standard_log</code> chỉ còn từ 14/01/2026, nên số người dùng theo log chỉ có cho năm 2026 và gồm cả giảng viên.</li>
+    <li>Số khóa học, số học viên, số quiz ở cột “Tất cả” là số khác nhau trên toàn thời gian, không bằng tổng các năm.</li>
+    <li>Phân loại: Cốt lõi khi có từ 5.000 người dùng năm 2026 (câu hỏi: từ 5.000 lượt trả lời). Quan trọng khi từ 400 người dùng hoặc từ 1.000 mục tạo mới trong 2025–2026 (câu hỏi: từ 1.000 lượt trả lời). Diễn đàn hạ xuống Quan trọng vì phần lớn là diễn đàn Thông báo. Nhãn không ghi log nên xếp riêng.</li>
+  </ul>
+</section>
+
+<section class="sec" id="lms-2027">
+  <details class="sec-fold" id="lms-fold">
+    <summary><div class="sec-head"><span class="idx">08</span><h2>Yêu cầu cho LMS mới 2027</h2>
+      <p class="lead">LMS tự xây dựng, tính năng tương đương phần Moodle LHU đang dùng thật. Mỗi nhóm yêu cầu kèm số liệu làm căn cứ.</p></div></summary>
+    <div class="reqs" id="reqs"></div>
+  </details>
+</section>
+
+</main>
+<footer class="wrap">Nguồn: cơ sở dữ liệu Moodle learn.lhu.edu.vn, lấy ngày 07/10/2026. Bản Markdown đi kèm: <code>bao-cao-su-dung-tinh-nang-lms.md</code>.</footer>
+
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script>
+const DATA = {"years":["2018","2019","2020","2021","2022","2023","2024","2025","2026"],"mods":[{"k":"url","label":"Liên kết (URL)","group":"res","tier":"Cốt lõi","created":{"2018":12,"2021":6532,"2024":994,"2017":2,"2023":636,"2019":117,"2022":1480,"2025":409,"2026":475,"2020":1791,"all":12448},"courses":{"2018":12,"2021":883,"2024":308,"2017":1,"2023":224,"2019":38,"2022":401,"2025":164,"2026":140,"2020":608,"all":2178},"compl":{"2024":2704,"2025":1964,"2019":18,"2022":2977,"2020":2643,"2026":1787,"2021":3678,"2023":1501,"all":11634},"inter":{},"interU":{},"interLabel":"","log":{"n":54727,"users":5613}},{"k":"glossary","label":"Thuật ngữ (Glossary)","group":"act","tier":"Ít dùng","created":{"2022":4,"2021":5,"2025":2,"2024":4,"2020":2,"2023":76,"all":93},"courses":{"2022":2,"2021":5,"2025":1,"2024":4,"2020":2,"2023":76,"all":90},"compl":{"2025":38,"2022":9,"2021":86,"2020":44,"2024":10,"2023":13,"all":200},"inter":{"2020":2,"2021":3,"2023":5,"2025":1,"all":11},"interU":{"2020":1,"2021":2,"2023":3,"2025":1,"all":7},"interLabel":"mục từ","log":{"n":109,"users":72}},{"k":"forum","label":"Diễn đàn (Forum)","group":"act","tier":"Quan trọng","created":{"2021":4455,"2026":1434,"2024":1633,"2019":246,"2025":2545,"2022":1990,"2020":5068,"2017":3,"2018":198,"2023":2046,"all":19618},"courses":{"2021":2427,"2026":1353,"2024":1408,"2019":186,"2025":2315,"2022":1653,"2020":2226,"2017":1,"2018":97,"2023":1712,"all":11508},"compl":{"2019":27,"2021":2782,"2026":652,"2020":3314,"2025":813,"2023":1103,"2024":950,"2022":1931,"all":8224},"inter":{"2024":1531,"2021":4182,"2022":1925,"2025":2683,"2019":79,"2020":4557,"2023":2449,"2026":1299,"all":18705},"interU":{"2024":510,"2021":976,"2022":504,"2025":421,"2019":29,"2020":1330,"2023":458,"2026":346,"all":3571},"interLabel":"bài đăng","log":{"n":158532,"users":8112}},{"k":"h5pactivity","label":"H5P (core)","group":"act","tier":"Ít dùng","created":{"2025":6,"2024":10,"2026":1,"2021":13,"all":30},"courses":{"2025":6,"2024":1,"2026":1,"2021":11,"all":19},"compl":{"2024":32,"2025":94,"2023":6,"2026":60,"2021":52,"2022":14,"all":257},"inter":{"2021":14,"2022":1,"2024":2,"2025":800,"2026":140,"all":957},"interU":{"2021":13,"2022":1,"2024":2,"2025":25,"2026":4,"all":44},"interLabel":"lượt làm","log":{"n":454,"users":129}},{"k":"data","label":"Cơ sở dữ liệu (Database)","group":"act","tier":"Ít dùng","created":{"2025":18,"2022":1,"2023":63,"2024":3,"2021":38,"2020":5,"all":128},"courses":{"2025":5,"2022":1,"2023":63,"2024":3,"2021":19,"2020":5,"all":96},"compl":{"2025":42,"2026":6,"2021":70,"2023":97,"2024":105,"2020":160,"2022":13,"all":475},"inter":{"2023":143,"2024":125,"2026":2,"all":270},"interU":{"2023":91,"2024":94,"2026":1,"all":174},"interLabel":"bản ghi","log":{"n":166,"users":69}},{"k":"lti","label":"Công cụ ngoài (LTI)","group":"act","tier":"Ít dùng","created":{"2025":84,"2021":4,"2026":10,"2024":119,"2023":60,"all":277},"courses":{"2025":39,"2021":3,"2026":6,"2024":64,"2023":33,"all":141},"compl":{"2025":428,"2024":829,"2026":67,"2021":32,"2023":328,"all":1415},"inter":{},"interU":{},"interLabel":"","log":{"n":4592,"users":276}},{"k":"chat","label":"Trò chuyện (Chat)","group":"act","tier":"Ít dùng","created":{"2019":67,"2022":94,"2018":4,"2025":12,"2026":5,"2020":102,"2023":20,"2021":259,"2024":15,"all":578},"courses":{"2019":48,"2022":25,"2018":4,"2025":11,"2026":4,"2020":81,"2023":20,"2021":122,"2024":13,"all":294},"compl":{"2025":64,"2026":37,"2019":3,"2023":94,"2024":131,"2021":548,"2022":287,"2020":844,"all":1734},"inter":{"2020":201,"2021":57,"2022":668,"2023":6,"2024":69,"2025":4,"2026":73,"all":1078},"interU":{"2020":91,"2021":16,"2022":128,"2023":4,"2024":41,"2025":4,"2026":33,"all":315},"interLabel":"tin nhắn","log":{"n":561,"users":216}},{"k":"page","label":"Trang (Page)","group":"res","tier":"Cốt lõi","created":{"2017":3,"2022":1874,"2023":2344,"2018":16,"2026":2666,"2021":14490,"2025":4655,"2024":8905,"2019":158,"2020":14891,"all":50002},"courses":{"2017":1,"2022":431,"2023":448,"2018":6,"2026":198,"2021":1267,"2025":392,"2024":491,"2019":103,"2020":1816,"all":3685},"compl":{"2021":5074,"2026":2677,"2023":2745,"2024":2961,"2019":31,"2020":5432,"2025":3342,"2022":4114,"all":15394},"inter":{},"interU":{},"interLabel":"","log":{"n":190602,"users":7159}},{"k":"lesson","label":"Bài học (Lesson)","group":"act","tier":"Quan trọng","created":{"2019":90,"2020":4130,"2018":667,"2021":6987,"2026":1138,"2024":3489,"2023":1986,"2025":2217,"2022":2435,"2017":1,"all":23140},"courses":{"2019":57,"2020":671,"2018":68,"2021":876,"2026":168,"2024":384,"2023":290,"2025":298,"2022":365,"2017":1,"all":2705},"compl":{"2019":25,"2024":1768,"2023":1465,"2021":4061,"2026":1476,"2025":1575,"2022":2331,"2020":3585,"all":10858},"inter":{"2024":4423,"2021":14697,"2022":4963,"2025":3095,"2019":84,"2020":15642,"2023":5661,"2026":1567,"all":50132},"interU":{"2024":687,"2021":2101,"2022":1347,"2025":567,"2019":29,"2020":2489,"2023":1057,"2026":460,"all":6708},"interLabel":"phiên học","log":{"n":24628,"users":479}},{"k":"book","label":"Sách (Book)","group":"res","tier":"Quan trọng","created":{"2020":434,"2025":70,"2022":130,"2021":113,"2024":292,"2026":128,"2023":219,"all":1386},"courses":{"2020":95,"2025":23,"2022":54,"2021":66,"2024":44,"2026":20,"2023":54,"all":346},"compl":{"2020":231,"2026":238,"2023":255,"2021":564,"2024":291,"2025":395,"2022":271,"all":1964},"inter":{},"interU":{},"interLabel":"","log":{"n":2025,"users":589}},{"k":"feedback","label":"Phản hồi (Feedback)","group":"act","tier":"Ít dùng","created":{"2021":375,"2024":12,"2022":45,"2023":426,"2018":38,"2020":37,"2026":3,"2019":18,"all":954},"courses":{"2021":146,"2024":4,"2022":33,"2023":76,"2018":38,"2020":36,"2026":2,"2019":17,"all":317},"compl":{"2021":282,"2020":395,"2026":58,"2025":189,"2019":17,"2024":329,"2022":243,"2023":212,"all":1445},"inter":{"2019":53,"2020":319,"2021":599,"2022":512,"2023":1199,"2024":967,"2025":457,"2026":264,"all":4370},"interU":{"2019":30,"2020":257,"2021":399,"2022":405,"2023":267,"2024":319,"2025":208,"2026":103,"all":1630},"interLabel":"phiếu trả lời","log":{"n":1590,"users":383}},{"k":"hvp","label":"H5P tương tác (mod_hvp)","group":"act","tier":"Quan trọng","created":{"2023":362,"2025":634,"2019":455,"2026":34,"2021":1677,"2022":499,"2024":1022,"2020":1771,"all":6454},"courses":{"2023":47,"2025":44,"2019":61,"2026":6,"2021":256,"2022":40,"2024":79,"2020":268,"all":661},"compl":{"2019":1,"2023":1948,"2024":1339,"2021":2691,"2022":2239,"2020":2386,"2025":1237,"2026":703,"all":8569},"inter":{},"interU":{},"interLabel":"","log":{"n":23932,"users":1465}},{"k":"quiz","label":"Bài kiểm tra (Quiz)","group":"act","tier":"Cốt lõi","created":{"2026":913,"2018":352,"2022":795,"2020":14714,"2024":3227,"2019":11,"2025":1809,"2021":5416,"2023":1011,"all":28248},"courses":{"2026":189,"2018":46,"2022":212,"2020":2076,"2024":474,"2019":9,"2025":405,"2021":1057,"2023":246,"all":3832},"compl":{"2022":5678,"2020":5901,"2026":4764,"2019":58,"2023":4397,"2021":6237,"2024":4845,"2025":5173,"all":19245},"inter":{"2022":163512,"2020":335188,"2023":123067,"2021":278757,"2019":1702,"2024":166033,"2026":194068,"2025":197602,"all":1459929},"interU":{"2022":7656,"2020":7108,"2023":6397,"2021":7627,"2019":254,"2024":7057,"2026":9785,"2025":9517,"all":25826},"interLabel":"lượt làm bài","log":{"n":2617080,"users":10121}},{"k":"assign","label":"Bài tập (Assignment)","group":"act","tier":"Cốt lõi","created":{"2023":4056,"2020":7830,"2022":2352,"2021":4098,"2024":2003,"2019":118,"2025":2310,"2017":1,"2018":99,"2026":961,"all":23828},"courses":{"2023":543,"2020":891,"2022":620,"2021":875,"2024":435,"2019":32,"2025":491,"2017":1,"2018":32,"2026":281,"all":3271},"compl":{"2023":4533,"2022":4647,"2021":5512,"2024":5291,"2026":6147,"2025":6902,"2020":4783,"2019":89,"all":19871},"inter":{"2019":717,"2022":40584,"2020":37264,"2023":38181,"2021":50393,"2024":44125,"2026":43433,"2025":57596,"all":312293},"interU":{"2019":84,"2022":4004,"2020":3946,"2023":4164,"2021":4723,"2024":4755,"2026":5794,"2025":6522,"all":18312},"interLabel":"bài nộp","log":{"n":1001584,"users":7961}},{"k":"label","label":"Nhãn (Text & media)","group":"res","tier":"Cơ bản","created":{"2023":969,"2022":152,"2025":361,"2026":172,"2021":1548,"2019":174,"2020":860,"2018":168,"2024":326,"2017":2,"all":4732},"courses":{"2023":140,"2022":64,"2025":277,"2026":83,"2021":182,"2019":9,"2020":255,"2018":92,"2024":56,"2017":1,"all":1000},"compl":{"2026":823,"2021":921,"2019":35,"2023":339,"2022":414,"2025":858,"2020":765,"2024":464,"all":3521},"inter":{},"interU":{},"interLabel":"","log":{"n":0,"users":0}},{"k":"folder","label":"Thư mục (Folder)","group":"res","tier":"Quan trọng","created":{"2021":555,"2022":123,"2020":231,"2019":69,"2025":55,"2026":69,"2023":2094,"2024":265,"all":3461},"courses":{"2021":302,"2022":79,"2020":127,"2019":41,"2025":43,"2026":16,"2023":168,"2024":114,"all":784},"compl":{"2020":1103,"2023":329,"2025":684,"2024":1449,"2021":2093,"2022":903,"2026":357,"all":5449},"inter":{},"interU":{},"interLabel":"","log":{"n":17710,"users":2415}},{"k":"workshop","label":"Hội thảo (Workshop)","group":"act","tier":"Ít dùng","created":{"2022":16,"2023":1,"2021":58,"2024":51,"all":126},"courses":{"2022":16,"2023":1,"2021":19,"2024":14,"all":26},"compl":{"2021":30,"2023":34,"2024":13,"2025":1,"2022":26,"2026":6,"all":109},"inter":{},"interU":{"all":0},"interLabel":"bài nộp","log":{"n":91,"users":45}},{"k":"resource","label":"Tệp (File)","group":"res","tier":"Cốt lõi","created":{"2023":2033,"2018":900,"2019":297,"2017":1,"2025":2075,"2020":4408,"2022":3073,"2026":1255,"2024":1828,"2021":8396,"all":24266},"courses":{"2023":448,"2018":160,"2019":71,"2017":1,"2025":438,"2020":1126,"2022":627,"2026":235,"2024":450,"2021":1536,"all":3939},"compl":{"2023":2151,"2020":3880,"2022":3544,"2025":2388,"2026":1961,"2024":2203,"2021":4799,"2019":31,"all":12679},"inter":{},"interU":{},"interLabel":"","log":{"n":93241,"users":6317}},{"k":"vpl","label":"VPL (lập trình)","group":"act","tier":"Ít dùng","created":{"2026":1,"2024":10,"all":11},"courses":{"2026":1,"2024":8,"all":9},"compl":{"2026":5,"2025":1,"all":6},"inter":{},"interU":{"all":0},"interLabel":"bài nộp","log":{"n":24,"users":7}},{"k":"scorm","label":"Gói SCORM","group":"act","tier":"Quan trọng","created":{"2020":1730,"2019":570,"2021":6,"2024":24,"all":2330},"courses":{"2020":111,"2019":81,"2021":6,"2024":24,"all":154},"compl":{"2022":1069,"2021":1115,"2019":186,"2023":841,"2025":420,"2026":399,"2020":1597,"2024":574,"all":5536},"inter":{"2021":7981,"2023":4416,"2019":753,"2024":4078,"2026":2453,"2022":4741,"2020":10543,"2025":1496,"all":36461},"interU":{"2021":1188,"2023":909,"2019":253,"2024":645,"2026":468,"2022":1030,"2020":1604,"2025":407,"all":5721},"interLabel":"lượt mở SCORM","log":{"n":14595,"users":655}},{"k":"imscp","label":"Gói nội dung IMS","group":"res","tier":"Ít dùng","created":{"2021":1,"2020":267,"all":268},"courses":{"2021":1,"2020":76,"all":77},"compl":{"2024":143,"2026":21,"2021":232,"2023":62,"2022":39,"2025":13,"2020":609,"all":1009},"inter":{},"interU":{},"interLabel":"","log":{"n":101,"users":39}},{"k":"choice","label":"Lựa chọn (Choice)","group":"act","tier":"Ít dùng","created":{"2020":36,"2021":3,"all":39},"courses":{"2020":21,"2021":3,"all":24},"compl":{"2021":14,"2020":91,"2024":1,"2025":5,"2022":41,"all":151},"inter":{"2020":94,"2021":125,"2022":256,"2024":7,"2025":1,"2026":1,"all":484},"interU":{"2020":72,"2021":30,"2022":51,"2024":3,"2025":1,"2026":1,"all":158},"interLabel":"lựa chọn","log":{"n":7,"users":2}},{"k":"survey","label":"Khảo sát (Survey)","group":"act","tier":"Ít dùng","created":{"2021":51,"2026":3,"all":54},"courses":{"2021":51,"2026":3,"all":54},"compl":{"2023":1,"2022":4,"2021":34,"2025":2,"2026":61,"all":102},"inter":{"2021":884,"2024":26,"2026":133,"all":1043},"interU":{"2021":34,"2024":1,"2026":14,"all":49},"interLabel":"câu trả lời","log":{"n":122,"users":48}},{"k":"wiki","label":"Wiki","group":"act","tier":"Ít dùng","created":{"2019":3,"all":3},"courses":{"2019":3,"all":3},"compl":{"2020":33,"2021":18,"all":51},"inter":{"2021":1,"all":1},"interU":{"2021":1,"all":1},"interLabel":"trang","log":{"n":0,"users":0}}],"qtypes":[{"k":"description","label":"Mô tả (không chấm điểm)","tier":"Ít dùng","created":{"2021":174,"2024":52,"2025":3,"2026":147,"2023":59,"2020":14,"all":449},"attempts":{"2026":80,"2024":48,"2022":17,"2023":7,"2021":8,"all":160},"slots":{"2020":9,"2021":2,"2024":46,"2026":8,"all":65},"quizzes":{"2020":9,"2021":1,"2024":22,"2026":3,"all":35},"courses":{"2020":9,"2021":1,"2024":4,"2026":3,"all":17}},{"k":"essay","label":"Tự luận","tier":"Cốt lõi","created":{"2020":8502,"2024":225,"2023":232,"2026":155,"2022":164,"2025":209,"2021":1741,"all":11228},"attempts":{"2024":6531,"2025":5312,"2021":10462,"2023":6868,"2026":5373,"2022":9645,"all":44191},"slots":{"2020":4016,"2021":1468,"2022":207,"2023":198,"2024":207,"2025":204,"2026":148,"all":6448},"quizzes":{"2020":2095,"2021":720,"2022":155,"2023":144,"2024":131,"2025":151,"2026":127,"all":3523},"courses":{"2020":365,"2021":181,"2022":34,"2023":42,"2024":28,"2025":32,"2026":19,"all":657}},{"k":"ddwtos","label":"Kéo thả vào văn bản","tier":"Cốt lõi","created":{"2023":99,"2025":31,"2022":89,"2020":1409,"2021":854,"2024":209,"2026":62,"all":2753},"attempts":{"2024":9416,"2020":102,"2022":11080,"2026":8191,"2023":11656,"2021":3984,"2025":6377,"all":50806},"slots":{"2020":913,"2021":645,"2022":90,"2023":98,"2024":180,"2025":21,"2026":38,"all":1985},"quizzes":{"2020":719,"2021":427,"2022":78,"2023":73,"2024":172,"2025":21,"2026":31,"all":1521},"courses":{"2020":243,"2021":146,"2022":20,"2023":31,"2024":39,"2025":9,"2026":13,"all":438}},{"k":"randomsamatch","label":"Ghép đôi ngẫu nhiên","tier":"Ít dùng","created":{"2021":10,"all":10},"attempts":{},"slots":{},"quizzes":{},"courses":{}},{"k":"coderunner","label":"CodeRunner (lập trình)","tier":"Ít dùng","created":{"2020":19,"2019":1,"all":20},"attempts":{},"slots":{},"quizzes":{},"courses":{}},{"k":"ddimageortext","label":"Kéo thả lên ảnh","tier":"Quan trọng","created":{"2022":6,"2024":9,"2021":143,"2020":121,"2023":132,"2025":2,"all":413},"attempts":{"2021":748,"2023":1887,"2026":2600,"2024":1086,"2025":2020,"2022":1045,"all":9386},"slots":{"2020":122,"2021":60,"2022":3,"2023":108,"2025":1,"all":294},"quizzes":{"2020":93,"2021":45,"2022":3,"2023":40,"2025":1,"all":182},"courses":{"2020":36,"2021":29,"2022":1,"2023":4,"2025":1,"all":61}},{"k":"gapselect","label":"Chọn từ điền khuyết","tier":"Ít dùng","created":{"2021":123,"2020":949,"2025":4,"2026":2,"2023":47,"2024":34,"2022":2,"all":1161},"attempts":{"2025":793,"2021":2679,"2026":199,"2023":3087,"2022":3042,"2024":1586,"all":11386},"slots":{"2020":482,"2021":87,"2022":2,"2023":43,"2024":31,"2025":1,"2026":2,"all":648},"quizzes":{"2020":341,"2021":66,"2022":2,"2023":18,"2024":10,"2025":1,"2026":2,"all":440},"courses":{"2020":108,"2021":29,"2022":2,"2023":9,"2024":8,"2025":1,"2026":1,"all":152}},{"k":"random","label":"Câu hỏi ngẫu nhiên từ ngân hàng","tier":"Quan trọng","created":{},"attempts":{},"slots":{"2019":99,"2020":13669,"2021":1759,"2022":60,"2023":265,"2024":3660,"2025":1970,"2026":2388,"all":23870},"quizzes":{"2019":7,"2020":1015,"2021":126,"2022":3,"2023":7,"2024":170,"2025":147,"2026":156,"all":1631},"courses":{"2019":6,"2020":247,"2021":38,"2022":3,"2023":3,"2024":41,"2025":74,"2026":51,"all":426}},{"k":"multichoice","label":"Nhiều lựa chọn","tier":"Cốt lõi","created":{"2019":558,"2023":10663,"2020":140951,"2022":8288,"2026":15187,"2018":3811,"2024":42798,"2025":23226,"2021":55585,"all":301067},"attempts":{"2023":954962,"2022":1244182,"2021":574802,"2024":1315610,"2025":1842718,"2020":66875,"2026":1960031,"all":7959180},"slots":{"2018":3689,"2019":5,"2020":62434,"2021":25997,"2022":5931,"2023":7438,"2024":23527,"2025":16637,"2026":7964,"all":153622},"quizzes":{"2018":351,"2019":4,"2020":8156,"2021":2571,"2022":413,"2023":704,"2024":2431,"2025":1226,"2026":418,"all":16274},"courses":{"2018":45,"2019":4,"2020":1710,"2021":802,"2022":140,"2023":195,"2024":403,"2025":296,"2026":125,"all":3086}},{"k":"numerical","label":"Số học","tier":"Quan trọng","created":{"2023":20,"2021":208,"2020":288,"all":516},"attempts":{"2021":1178,"2026":2767,"2024":5724,"2023":4167,"2022":4341,"2025":3406,"all":21583},"slots":{"2020":142,"2021":196,"2023":20,"all":358},"quizzes":{"2020":140,"2021":108,"2023":20,"all":268},"courses":{"2020":106,"2021":81,"2023":20,"all":156}},{"k":"match","label":"Ghép đôi","tier":"Cốt lõi","created":{"2019":2,"2021":1500,"2024":133,"2026":26,"2020":3383,"2022":59,"2023":136,"2025":27,"all":5266},"attempts":{"2022":39730,"2024":25141,"2020":71,"2026":16371,"2025":15384,"2023":31573,"2021":16523,"all":144793},"slots":{"2019":2,"2020":2340,"2021":1208,"2022":74,"2023":149,"2024":126,"2025":45,"2026":33,"all":3977},"quizzes":{"2019":2,"2020":1866,"2021":935,"2022":42,"2023":80,"2024":113,"2025":31,"2026":26,"all":3095},"courses":{"2019":1,"2020":608,"2021":354,"2022":27,"2023":38,"2024":42,"2025":16,"2026":14,"all":897}},{"k":"shortanswer","label":"Trả lời ngắn","tier":"Cốt lõi","created":{"2023":607,"2022":610,"2020":9561,"2025":1895,"2021":3445,"2026":2766,"2024":821,"all":19705},"attempts":{"2026":101412,"2020":435,"2023":67725,"2021":58484,"2025":86798,"2024":41545,"2022":61886,"all":418285},"slots":{"2020":5835,"2021":3874,"2022":688,"2023":487,"2024":817,"2025":1912,"2026":1171,"all":14784},"quizzes":{"2020":1485,"2021":591,"2022":92,"2023":60,"2024":121,"2025":92,"2026":72,"all":2513},"courses":{"2020":457,"2021":240,"2022":34,"2023":24,"2024":27,"2025":18,"2026":7,"all":701}},{"k":"multianswer","label":"Điền khuyết nhúng (Cloze)","tier":"Cốt lõi","created":{"2024":88,"2022":36,"2023":64,"2020":353,"2021":798,"2026":47,"2025":244,"all":1630},"attempts":{"2024":7328,"2022":5445,"2025":9549,"2023":10901,"2026":6731,"2021":5922,"all":45876},"slots":{"2020":237,"2021":649,"2022":32,"2023":47,"2024":70,"2025":244,"2026":46,"all":1325},"quizzes":{"2020":178,"2021":482,"2022":21,"2023":33,"2024":70,"2025":131,"2026":36,"all":951},"courses":{"2020":66,"2021":96,"2022":11,"2023":14,"2024":21,"2025":34,"2026":12,"all":217}},{"k":"truefalse","label":"Đúng/Sai","tier":"Cốt lõi","created":{"2020":10529,"2022":545,"2025":94,"2024":203,"2023":344,"2019":23,"2021":3578,"2026":41,"all":15357},"attempts":{"2024":44802,"2020":1576,"2026":27301,"2023":58267,"2021":33842,"2025":23609,"2022":76700,"all":266097},"slots":{"2020":6239,"2021":2898,"2022":520,"2023":305,"2024":138,"2025":102,"2026":56,"all":10258},"quizzes":{"2020":1850,"2021":656,"2022":102,"2023":130,"2024":54,"2025":29,"2026":15,"all":2836},"courses":{"2020":727,"2021":327,"2022":45,"2023":74,"2024":28,"2025":21,"2026":13,"all":1028}},{"k":"ddmarker","label":"Kéo thả điểm đánh dấu","tier":"Ít dùng","created":{"2024":4,"2020":7,"2021":5,"all":16},"attempts":{},"slots":{},"quizzes":{},"courses":{}}],"mime":[{"k":"image/png","label":"Ảnh PNG","n":{"2019":4,"2024":25,"2026":5,"2023":24,"2020":3,"2022":14,"2025":15,"2021":30,"all":120},"gb":{"2019":0.0,"2024":0.0,"2026":0.0,"2023":0.01,"2020":0.0,"2022":0.02,"2025":0.0,"2021":0.0,"all":0.04}},{"k":"audio/aac","label":"aac","n":{"2020":5,"all":5},"gb":{"2020":0.0,"all":0.0}},{"k":"video/mp4","label":"Video MP4","n":{"2020":2,"2023":4,"2021":49,"all":55},"gb":{"2020":0.0,"2023":0.02,"2021":0.28,"all":0.3}},{"k":"application/octet-stream","label":"octet-stream","n":{"2023":1,"2025":3,"2024":2,"all":6},"gb":{"2023":0.0,"2025":0.0,"2024":0.0,"all":0.01}},{"k":"application/vnd.openxmlformats-officedocument.wordprocessingml.document","label":"Word (DOCX)","n":{"2023":296,"2021":1568,"2020":521,"2024":272,"2019":25,"2025":262,"2017":1,"2018":12,"2026":282,"2022":407,"all":3646},"gb":{"2023":0.05,"2021":0.46,"2020":0.14,"2024":0.05,"2019":0.01,"2025":0.04,"2017":0.0,"2018":0.0,"2026":0.11,"2022":0.05,"all":0.9}},{"k":"application/zip","label":"Nén ZIP","n":{"2023":6,"2024":8,"2022":1,"2025":33,"2020":1,"2021":8,"2026":7,"2019":5,"all":69},"gb":{"2023":0.03,"2024":0.03,"2022":0.0,"2025":0.08,"2020":0.0,"2021":0.02,"2026":0.0,"2019":0.05,"all":0.21}},{"k":"audio/mp3","label":"Âm thanh MP3","n":{"2024":160,"2025":142,"2020":63,"2021":31,"2022":96,"2023":497,"all":989},"gb":{"2024":0.09,"2025":0.13,"2020":0.07,"2021":0.1,"2022":0.11,"2023":0.56,"all":1.06}},{"k":"image/jpeg","label":"Ảnh JPEG","n":{"2024":47,"2026":3,"2025":7,"2021":70,"2020":2,"2022":12,"2023":9,"all":150},"gb":{"2024":0.01,"2026":0.0,"2025":0.0,"2021":0.05,"2020":0.0,"2022":0.01,"2023":0.0,"all":0.08}},{"k":"audio/x-ms-wma","label":"Âm thanh WMA","n":{"2020":23,"2022":30,"2023":21,"2021":15,"all":89},"gb":{"2020":0.02,"2022":0.03,"2023":0.03,"2021":0.02,"all":0.09}},{"k":"text/plain","label":"plain","n":{"2020":20,"2024":1,"2026":4,"2019":6,"2021":28,"2022":7,"all":66},"gb":{"2020":0.0,"2024":0.0,"2026":0.0,"2019":0.0,"2021":0.0,"2022":0.0,"all":0.0}},{"k":"video/x-ms-wmv","label":"Video WMV","n":{"2020":49,"2021":2,"all":51},"gb":{"2020":0.11,"2021":0.01,"all":0.12}},{"k":"application/vnd.ms-powerpoint","label":"PowerPoint (PPT)","n":{"2021":713,"2022":204,"2023":153,"2024":60,"2026":27,"2025":74,"2019":12,"2020":155,"all":1398},"gb":{"2021":1.37,"2022":0.24,"2023":0.21,"2024":0.08,"2026":0.07,"2025":0.11,"2019":0.03,"2020":0.49,"all":2.6}},{"k":"application/msword","label":"Word (DOC)","n":{"2022":575,"2026":61,"2019":10,"2021":438,"2025":36,"2023":71,"2024":63,"2020":175,"all":1429},"gb":{"2022":0.42,"2026":0.01,"2019":0.0,"2021":0.54,"2025":0.01,"2023":0.02,"2024":0.01,"2020":0.09,"all":1.1}},{"k":"application/x-rar-compressed","label":"Nén RAR","n":{"2022":31,"2024":5,"2025":21,"2019":91,"2026":5,"2023":13,"2020":332,"2021":145,"all":643},"gb":{"2022":0.03,"2024":0.02,"2025":0.08,"2019":0.69,"2026":0.02,"2023":0.02,"2020":1.78,"2021":0.68,"all":3.33}},{"k":"application/pdf","label":"PDF","n":{"2024":1306,"2022":1859,"2026":896,"2023":1085,"2018":490,"2019":132,"2025":1432,"2020":2724,"2021":4671,"all":14595},"gb":{"2024":1.86,"2022":2.81,"2026":1.33,"2023":1.77,"2018":0.57,"2019":0.75,"2025":2.09,"2020":4.89,"2021":9.05,"all":25.14}},{"k":"application/vnd.ms-excel","label":"Excel (XLS)","n":{"2025":2,"2020":12,"2026":22,"2021":13,"2024":3,"all":52},"gb":{"2025":0.0,"2020":0.01,"2026":0.0,"2021":0.0,"2024":0.01,"all":0.02}},{"k":"document/unknown","label":"unknown","n":{"2019":2,"2024":6,"2020":41,"2021":4,"2022":25,"all":78},"gb":{"2019":0.3,"2024":0.0,"2020":0.01,"2021":0.0,"2022":0.05,"all":0.36}},{"k":"application/x-7z-compressed","label":"x-7z-compressed","n":{"2021":2,"all":2},"gb":{"2021":0.0,"all":0.0}},{"k":"application/x-csh","label":"x-csh","n":{"2023":3,"all":3},"gb":{"2023":0.0,"all":0.0}},{"k":"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","label":"Excel (XLSX)","n":{"2026":31,"2022":46,"2023":24,"2024":37,"2025":85,"2020":45,"2021":18,"2019":16,"all":302},"gb":{"2026":0.01,"2022":0.01,"2023":0.0,"2024":0.03,"2025":0.0,"2020":0.0,"2021":0.01,"2019":0.0,"all":0.07}},{"k":"application/vnd.openxmlformats-officedocument.presentationml.slideshow","label":"vnd.openxmlformats-officedocument.presentationml.slideshow","n":{"2025":4,"all":4},"gb":{"2025":0.0,"all":0.0}},{"k":"application/vnd.openxmlformats-officedocument.presentationml.presentation","label":"PowerPoint (PPTX)","n":{"2022":260,"2023":211,"2024":257,"2019":14,"2018":41,"2020":217,"2021":1089,"2026":195,"2025":271,"all":2555},"gb":{"2022":0.76,"2023":0.19,"2024":0.3,"2019":0.08,"2018":0.1,"2020":0.31,"2021":2.03,"2026":0.31,"2025":0.41,"all":4.48}},{"k":"application/vnd.oasis.opendocument.spreadsheet","label":"vnd.oasis.opendocument.spreadsheet","n":{"2022":1,"2023":1,"all":2},"gb":{"2022":0.0,"2023":0.0,"all":0.0}},{"k":"application/vnd.ms-powerpoint.presentation.macroEnabled.12","label":"vnd.ms-powerpoint.presentation.macroEnabled.12","n":{"2022":2,"all":2},"gb":{"2022":0.01,"all":0.01}}],"url":[{"k":"google drive/docs","label":"google drive/docs","n":{"2019":8,"all":6721,"2020":1022,"2021":3219,"2024":595,"2018":1,"2022":690,"2023":422,"2025":319,"2026":445}},{"k":"youtube","label":"youtube","n":{"2020":428,"all":4189,"2019":36,"2018":5,"2021":2438,"2022":644,"2026":94,"2024":254,"2023":209,"2025":81}},{"k":"azota.vn","label":"azota.vn","n":{"2021":79,"all":168,"2022":63,"2023":11,"2024":15}},{"k":"forms.gle","label":"forms.gle","n":{"2020":6,"all":148,"2021":34,"2022":7,"2025":21,"2024":29,"2023":13,"2026":38}},{"k":"purposegames.com","label":"purposegames.com","n":{"2021":122,"all":122}},{"k":"quizizz.com","label":"quizizz.com","n":{"2020":3,"all":58,"2021":10,"2022":28,"2023":8,"2024":9}},{"k":"py4e.com","label":"py4e.com","n":{"2024":50,"all":50}},{"k":"edpuzzle.com","label":"edpuzzle.com","n":{"2021":27,"all":27}},{"k":"quizlet.com","label":"quizlet.com","n":{"2024":27,"all":27}},{"k":"autoshop101.com","label":"autoshop101.com","n":{"2019":23,"all":25,"2020":2}},{"k":"zoom.us","label":"zoom.us","n":{"2020":12,"all":25,"2021":5,"2022":7,"2026":1}},{"k":"helmancnc.com","label":"helmancnc.com","n":{"2020":23,"all":23}},{"k":"other","label":"Trang khác","n":{"2019":50,"all":893,"2020":123,"2021":339,"2022":160,"2024":81,"2023":59,"2025":35,"2017":1,"2026":45}}],"hvp":[{"k":"H5P.CoursePresentation","label":"CoursePresentation","n":{"2017":8,"2019":39,"2020":386,"2021":109,"2022":46,"2023":33,"2024":167,"2025":294,"2026":217,"all":1316}},{"k":"H5P.QuestionSet","label":"QuestionSet","n":{"2019":2,"2020":9,"2021":66,"2022":31,"2023":30,"2024":13,"2025":24,"2026":11,"all":186}},{"k":"H5P.Blanks","label":"Blanks","n":{"2020":872,"2021":479,"2022":232,"2023":359,"2024":120,"2025":94,"2026":52,"all":2208}},{"k":"H5P.DragText","label":"DragText","n":{"2020":39,"2021":20,"2022":3,"2023":9,"2024":2,"2025":1,"all":74}},{"k":"H5P.Flashcards","label":"Flashcards","n":{"2020":4,"2021":1,"2022":1,"2024":2,"2025":5,"2026":4,"all":17}},{"k":"H5P.InteractiveVideo","label":"InteractiveVideo","n":{"2020":147,"2021":356,"2022":469,"2023":81,"2024":546,"2025":466,"2026":241,"all":2306}},{"k":"H5P.MultiChoice","label":"MultiChoice","n":{"2020":1,"2021":2,"2022":1,"2023":6,"2024":3,"2025":15,"2026":2,"all":30}},{"k":"H5P.SingleChoiceSet","label":"SingleChoiceSet","n":{"2020":2,"2021":4,"2022":2,"2023":1,"all":9}},{"k":"H5P.TrueFalse","label":"TrueFalse","n":{"2020":1,"all":1}},{"k":"H5P.DragQuestion","label":"DragQuestion","n":{"2021":1,"all":1}},{"k":"H5P.ImageSlider","label":"ImageSlider","n":{"2021":46,"2022":144,"2023":95,"2024":8,"2025":7,"2026":5,"all":305}},{"k":"H5P.MarkTheWords","label":"MarkTheWords","n":{"2021":1,"all":1}},{"k":"H5P.Dialogcards","label":"Dialogcards","n":{"2024":2,"2025":2,"2026":2,"all":6}}],"forum":{"single":{"posts":{"2021":131,"2023":33,"2025":35,"2022":49,"2024":80,"2026":6,"2019":8,"2020":268,"all":610},"forums":221,"courses":102,"posters":272},"news":{"posts":{"2021":310,"2020":319,"2019":1,"2023":96,"2025":98,"2022":95,"2026":69,"2024":85,"all":1073},"forums":14693,"courses":11316,"posters":134},"general":{"posts":{"2019":70,"2026":1224,"2025":2544,"2022":1746,"2023":2314,"2024":1319,"2020":3802,"2021":3735,"all":16754},"forums":4662,"courses":1458,"posters":3231},"social":{"posts":{"2020":5,"all":5},"forums":1,"courses":1,"posters":1},"eachuser":{"posts":{"2020":78,"2021":5,"2024":46,"2022":11,"2025":5,"all":145},"forums":34,"courses":30,"posters":118},"blog":{"posts":{"2022":14,"2020":3,"all":17},"forums":4,"courses":4,"posters":17},"qanda":{"posts":{"2021":1,"2023":6,"2025":1,"2020":82,"2022":10,"all":100},"forums":71,"courses":55,"posters":45}},"page":{"2017":{"n":3,"iframe":3,"youtube":1,"video":0,"files":1},"2018":{"n":11,"iframe":10,"youtube":0,"video":0,"files":0},"2019":{"n":66,"iframe":22,"youtube":11,"video":10,"files":4},"2020":{"n":12054,"iframe":10807,"youtube":1072,"video":3,"files":326},"2021":{"n":14859,"iframe":13730,"youtube":2705,"video":4,"files":35},"2022":{"n":2753,"iframe":2121,"youtube":752,"video":0,"files":106},"2023":{"n":2630,"iframe":1647,"youtube":1033,"video":11,"files":123},"2024":{"n":6027,"iframe":5188,"youtube":654,"video":6,"files":88},"2025":{"n":8361,"iframe":7443,"youtube":529,"video":7,"files":73},"2026":{"n":3302,"iframe":2747,"youtube":254,"video":1,"files":29},"all":{"n":50066,"iframe":43718,"youtube":7011,"video":42,"files":785}},"beh":{"deferredfeedback":{"2018":352,"2019":11,"2020":11094,"2021":4743,"2022":762,"2023":1011,"2024":3225,"2025":1779,"2026":927,"all":23904},"adaptive":{"2020":1947,"2021":216,"2022":24,"2023":1,"2024":6,"2025":27,"2026":3,"all":2224},"adaptivenopenalty":{"2020":1578,"2021":297,"2022":9,"2023":1,"2024":8,"2025":2,"all":1895},"immediatefeedback":{"2020":103,"2021":163,"2025":3,"2026":2,"all":271}},"qset":{"2018":{"n":352,"timelimit":0,"attemptlimit":346,"pwd":0,"browsersec":0,"shuffle":350},"2019":{"n":11,"timelimit":8,"attemptlimit":4,"pwd":0,"browsersec":0,"shuffle":11},"2020":{"n":14722,"timelimit":3233,"attemptlimit":8747,"pwd":1,"browsersec":0,"shuffle":14379},"2021":{"n":5419,"timelimit":1067,"attemptlimit":5241,"pwd":1,"browsersec":0,"shuffle":5238},"2022":{"n":795,"timelimit":239,"attemptlimit":786,"pwd":0,"browsersec":0,"shuffle":789},"2023":{"n":1013,"timelimit":254,"attemptlimit":703,"pwd":0,"browsersec":0,"shuffle":1012},"2024":{"n":3239,"timelimit":337,"attemptlimit":1308,"pwd":0,"browsersec":0,"shuffle":3232},"2025":{"n":1811,"timelimit":354,"attemptlimit":854,"pwd":18,"browsersec":1,"shuffle":1795},"2026":{"n":932,"timelimit":171,"attemptlimit":681,"pwd":8,"browsersec":2,"shuffle":932},"all":{"n":28294,"timelimit":5663,"attemptlimit":18670,"pwd":28,"browsersec":3,"shuffle":27738}},"trend":[{"label":"Hoạt động & tài nguyên tạo mới","unit":"mục","vals":{"2018":2454,"2021":55080,"2024":24232,"2017":13,"2023":18402,"2019":2393,"2022":15063,"2025":17262,"2026":9268,"2020":58307,"all":202474}},{"label":"Lượt làm bài Quiz","unit":"lượt","vals":{"2022":163512,"2020":335188,"2023":123067,"2021":278757,"2019":1702,"2024":166033,"2026":194068,"2025":197602,"all":1459929}},{"label":"Lượt trả lời câu hỏi","unit":"lượt","vals":{"2021":708632,"2026":2131056,"2024":1458817,"2023":1151100,"2022":1457113,"2025":1995966,"all":8971743,"2020":69059}},{"label":"Bài nộp Assignment","unit":"bài","vals":{"2019":717,"2022":40584,"2020":37264,"2023":38181,"2021":50393,"2024":44125,"2026":43433,"2025":57596,"all":312293}},{"label":"Phiên học Lesson","unit":"phiên","vals":{"2024":4423,"2021":14697,"2022":4963,"2025":3095,"2019":84,"2020":15642,"2023":5661,"2026":1567,"all":50132}},{"label":"Lượt mở SCORM","unit":"lượt","vals":{"2021":7981,"2023":4416,"2019":753,"2024":4078,"2026":2453,"2022":4741,"2020":10543,"2025":1496,"all":36461}}],"logmods":[{"k":"mod_quiz","n":2617080,"users":10121},{"k":"mod_forum","n":158532,"users":8112},{"k":"mod_assign","n":1001584,"users":7961},{"k":"mod_page","n":190602,"users":7159},{"k":"mod_resource","n":93241,"users":6317},{"k":"mod_url","n":54727,"users":5613},{"k":"gradereport_user","n":50229,"users":3280},{"k":"gradereport_overview","n":16178,"users":2635},{"k":"mod_folder","n":17710,"users":2415},{"k":"mod_hvp","n":23932,"users":1465},{"k":"mod_scorm","n":14595,"users":655},{"k":"mod_book","n":2025,"users":589},{"k":"mod_lesson","n":24628,"users":479},{"k":"mod_feedback","n":1590,"users":383},{"k":"mod_lti","n":4592,"users":276},{"k":"mod_chat","n":561,"users":216},{"k":"gradereport_grader","n":3300,"users":138},{"k":"mod_h5pactivity","n":454,"users":129},{"k":"mod_glossary","n":109,"users":72},{"k":"mod_data","n":166,"users":69},{"k":"gradeexport_ods","n":560,"users":63},{"k":"mod_survey","n":122,"users":48},{"k":"mod_workshop","n":91,"users":45},{"k":"mod_imscp","n":101,"users":39},{"k":"gradereport_singleview","n":125,"users":30},{"k":"gradeexport_xls","n":334,"users":25},{"k":"gradereport_outcomes","n":42,"users":22},{"k":"mod_vpl","n":24,"users":7},{"k":"gradereport_history","n":49,"users":5},{"k":"gradeexport_xml","n":2,"users":2},{"k":"mod_choice","n":7,"users":2}],"storage":[{"k":"assignsubmission_file","n":325884,"gb":375.9},{"k":"mod_resource","n":27234,"gb":40.7},{"k":"question","n":44885,"gb":37.3},{"k":"mod_hvp","n":31322,"gb":31.8},{"k":"user","n":9088,"gb":28.0},{"k":"mod_scorm","n":253295,"gb":14.6},{"k":"mod_assign","n":11258,"gb":10.4},{"k":"mod_lesson","n":8846,"gb":9.8},{"k":"backup","n":504,"gb":7.6},{"k":"mod_folder","n":3273,"gb":6.3}],"storageTotal":0.57,"kpi":{"courses":{"2024":1488,"2021":1935,"2022":1515,"2025":2405,"2019":85,"2020":1610,"2023":1734,"2026":1420,"2018":1,"all":12193},"users":{"2024":3901,"2021":2621,"2022":2424,"2025":6154,"2019":806,"2020":6803,"2023":2470,"2026":6521,"2018":15,"all":31716},"items":202474,"questions":359591,"answers":8971743},"logRange":["14/01/2026","07/10/2026"],"formats":{"topics":299,"weeks":11894},"enrol":{"self":300,"cohort":5169,"manual":12132,"guest":0},"auth":{"oauth2":1052,"manual":30666},"assignPlugins":{"assignsubmission:file":22904,"assignsubmission:comments":23917,"assignfeedback:file":117,"assignfeedback:offline":65,"assignsubmission:onlinetext":4113,"assignfeedback:comments":4972}};
+const YEARS = DATA.years;
+const TIERS = [
+  { k: "Cốt lõi", c: "var(--t-core)", rule: "Phải có trong bản đầu của LMS 2027." },
+  { k: "Quan trọng", c: "var(--t-imp)", rule: "Cần có. Dùng thư viện có sẵn hoặc làm ở bản sau." },
+  { k: "Cơ bản", c: "var(--t-base)", rule: "Tính năng nền, LMS nào cũng có." },
+  { k: "Ít dùng", c: "var(--t-low)", rule: "Không làm." },
+];
+const tierColor = t => (TIERS.find(x => x.k === t) || TIERS[3]).c;
+const state = { year: "all", act: "created", res: "created", q: "attempts", mime: "n" };
+
+/* ---------- helpers ---------- */
+const nf = new Intl.NumberFormat("vi-VN");
+const fmt = v => (v == null || isNaN(v)) ? "–" : nf.format(Math.round(v));
+const fmt1 = v => new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 1 }).format(v);
+const pct = (a, b) => !b ? "–" : (a > 0 && 100 * a / b < 0.05) ? "<0,1%" : fmt1(100 * a / b) + "%";
+const compact = v => v >= 1e6 ? new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 2 }).format(v / 1e6) + " triệu" : v >= 1e4 ? fmt1(v / 1e3) + " nghìn" : fmt(v);
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const yLabel = () => state.year === "all" ? "toàn thời gian" : "năm " + state.year + (state.year === "2026" ? " (đến 07/10)" : "");
+const val = (obj, y = state.year) => (obj && obj[y]) || 0;
+const svgEl = (tag, attrs = {}) => { const e = document.createElementNS("http://www.w3.org/2000/svg", tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
+function niceTicks(max, n = 4) {
+  if (max <= 0) return [0];
+  const raw = max / n, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(s => s >= raw);
+  const out = []; for (let v = 0; v <= max + step * 0.001; v += step) out.push(v);
+  if (out[out.length - 1] < max) out.push(out[out.length - 1] + step);
+  return out;
+}
+const tickFmt = v => v >= 1e6 ? fmt1(v / 1e6) + "tr" : v >= 1e3 ? fmt1(v / 1e3) + "N" : fmt(v);
+
+/* tooltip */
+const tip = $("tip");
+function showTip(html, ev) {
+  tip.innerHTML = html; tip.classList.add("on");
+  let x, y;
+  if (ev.clientX != null && ev.type !== "focus") { x = ev.clientX; y = ev.clientY; }
+  else { const r = ev.currentTarget.getBoundingClientRect(); x = r.left + r.width / 2; y = r.top; }
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  let left = x + 14, top = y - h - 12;
+  if (left + w > innerWidth - 8) left = x - w - 14;
+  if (left < 8) left = 8;
+  if (top < 8) top = y + 16;
+  tip.style.left = left + "px"; tip.style.top = top + "px";
+}
+const hideTip = () => tip.classList.remove("on");
+function bindTip(el, fn) {
+  el.addEventListener("pointermove", e => showTip(fn(), e));
+  el.addEventListener("pointerleave", hideTip);
+  el.addEventListener("focus", e => showTip(fn(), e));
+  el.addEventListener("blur", hideTip);
+}
+const tipRows = rows => rows.map(([a, b]) => `<div class="r"><span>${a}</span><b>${b}</b></div>`).join("");
+
+/* horizontal bar list */
+function hbar(el, rows, opt = {}) {
+  const items = rows.filter(r => r.v > 0).sort((a, b) => b.v - a.v);
+  const max = Math.max(...items.map(r => r.v), 1);
+  const total = opt.total ?? items.reduce((s, r) => s + r.v, 0);
+  el.innerHTML = "";
+  if (!items.length) { el.innerHTML = `<div class="hb-empty">Không có dữ liệu cho ${yLabel()}.</div>`; return; }
+  items.forEach(r => {
+    const row = document.createElement("div"); row.className = "hb-row"; row.tabIndex = 0;
+    row.innerHTML = `<div class="hb-lab"><span class="nm" title="${esc(r.label)}">${esc(r.label)}</span>${r.code ? `<code>${esc(r.code)}</code>` : ""}</div>
+      <div class="hb-track"><div class="hb-bar" style="width:0;background:${r.color || "var(--accent)"}"></div></div>
+      <div class="hb-val">${(opt.valFmt || fmt)(r.v)}${opt.share ? `<small>${pct(r.v, total)}</small>` : ""}</div>`;
+    el.appendChild(row);
+    requestAnimationFrame(() => { row.querySelector(".hb-bar").style.width = (100 * r.v / max) + "%"; });
+    bindTip(row, () => `<b>${esc(r.label)}</b>${r.code ? ` <span style="opacity:.7">${esc(r.code)}</span>` : ""}` + tipRows(r.tip || [[opt.unit || "Giá trị", (opt.valFmt || fmt)(r.v)], ...(opt.share ? [["Tỷ lệ", pct(r.v, total)]] : [])]));
+  });
+}
+
+/* segmented control */
+function seg(el, options, key, onChange) {
+  el.innerHTML = "";
+  options.forEach(([k, label]) => {
+    const b = document.createElement("button"); b.type = "button"; b.textContent = label;
+    b.setAttribute("aria-pressed", state[key] === k);
+    b.onclick = () => { state[key] = k; el.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); onChange(); };
+    el.appendChild(b);
+  });
+}
+function tierLegend(el) {
+  el.innerHTML = TIERS.map(t => `<span class="key"><span class="sw" style="background:${t.c}"></span>${t.k}</span>`).join("");
+}
+
+/* ---------- header coverage strip ---------- */
+(function coverage() {
+  const el = $("cov"), y0 = 2018, y1 = 2027;
+  const pos = d => 100 * (d - y0) / (y1 - y0);
+  const dbEnd = 2026 + 280 / 365, logStart = 2026 + 13 / 365;
+  el.innerHTML = `<div class="cov-line"></div><div class="cov-db" style="left:${pos(2018.9)}%;width:${pos(dbEnd) - pos(2018.9)}%"></div>
+    <div class="cov-log" style="left:${pos(logStart)}%;width:${Math.max(pos(dbEnd) - pos(logStart), 0.6)}%"></div>
+    <div class="cov-ticks">${[2018,2019,2020,2021,2022,2023,2024,2025,2026,2027].map(y => `<span>${y === 2027 ? "" : y}</span>`).join("")}</div>`;
+})();
+
+/* ---------- year chips ---------- */
+(function chips() {
+  const el = $("years");
+  [["all", "Tất cả"], ...YEARS.slice().reverse().map(y => [y, y])].forEach(([k, l]) => {
+    const b = document.createElement("button"); b.className = "chip"; b.type = "button";
+    b.innerHTML = l + (k === "2026" ? '<span class="partial">*</span>' : "");
+    if (k === "2026") b.title = "Năm 2026 tính đến 07/10/2026";
+    b.setAttribute("aria-pressed", k === state.year);
+    b.onclick = () => { state.year = k; el.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", x === b)); renderYearViews(); };
+    el.appendChild(b);
+  });
+})();
+
+/* ---------- KPIs ---------- */
+(function kpis() {
+  const k = DATA.kpi;
+  const tiles = [
+    [fmt(k.courses.all), "khóa học", `${fmt(k.courses["2025"])} khóa mở năm 2025`],
+    [fmt(k.users.all), "tài khoản đang hoạt động", `${fmt(k.users["2026"])} tài khoản mới năm 2026`],
+    [fmt(k.items), "hoạt động và tài nguyên", "trong các khóa học"],
+    [fmt(k.questions), "câu hỏi trong ngân hàng", "không tính câu hỏi ngẫu nhiên"],
+    [compact(k.answers), "lượt trả lời câu hỏi", "từ 2020 đến nay"],
+  ];
+  $("kpis").innerHTML = tiles.map(([v, l, d]) => `<div class="kpi"><div class="v">${v}</div><div class="l">${l}</div><div class="d">${d}</div></div>`).join("");
+})();
+
+/* ---------- trend small multiples ---------- */
+function renderTrend() {
+  const el = $("trend"); el.innerHTML = "";
+  const ys = ["2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"];
+  DATA.trend.forEach((t, i) => {
+    const card = document.createElement("div"); card.className = "mcard";
+    const v25 = t.vals["2025"] || 0, v24 = t.vals["2024"] || 0;
+    const d = v24 ? (v25 - v24) / v24 : 0;
+    card.innerHTML = `<div class="t">${t.label}</div><div class="big">${fmt(v25)}<small>${t.unit} năm 2025</small></div>
+      <div class="delta" style="color:${d >= 0 ? "var(--good)" : "var(--ink-2)"}">${d >= 0 ? "▲" : "▼"} ${fmt1(Math.abs(d * 100))}% so với 2024</div><div class="chart"></div>`;
+    el.appendChild(card);
+  });
+  [...el.children].forEach((card, i) => {
+    const t = DATA.trend[i];
+    const box = card.querySelector(".chart");
+    const W = Math.max(box.clientWidth, 240), H = 120, m = { l: 4, r: 30, t: 16, b: 20 };
+    const max = Math.max(...ys.map(y => t.vals[y] || 0));
+    const x = j => m.l + j * (W - m.l - m.r) / (ys.length - 1);
+    const y = v => H - m.b - (v / max) * (H - m.t - m.b);
+    const svg = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": t.label });
+    svg.appendChild(svgEl("line", { x1: m.l, x2: W - m.r, y1: H - m.b, y2: H - m.b, class: "baseline" }));
+    const pts = ys.map((yr, j) => [x(j), y(t.vals[yr] || 0)]);
+    const full = pts.slice(0, -1);
+    svg.appendChild(svgEl("path", { d: `M${full[0][0]},${H - m.b} ` + full.map(p => `L${p[0]},${p[1]}`).join(" ") + ` L${full[full.length - 1][0]},${H - m.b}Z`, fill: "var(--accent)", "fill-opacity": .1 }));
+    svg.appendChild(svgEl("path", { d: "M" + full.map(p => p.join(",")).join(" L"), fill: "none", stroke: "var(--accent)", "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }));
+    const last = pts[pts.length - 1], prev = pts[pts.length - 2];
+    svg.appendChild(svgEl("line", { x1: prev[0], y1: prev[1], x2: last[0], y2: last[1], stroke: "var(--accent)", "stroke-width": 2, "stroke-opacity": .45, "stroke-linecap": "round" }));
+    svg.appendChild(svgEl("circle", { cx: last[0], cy: last[1], r: 4, fill: "var(--surface)", stroke: "var(--accent)", "stroke-width": 2 }));
+    svg.appendChild(svgEl("circle", { cx: prev[0], cy: prev[1], r: 4, fill: "var(--accent)", stroke: "var(--surface)", "stroke-width": 2 }));
+    const pk = ys.reduce((a, yr, j) => (t.vals[yr] || 0) > (t.vals[ys[a]] || 0) ? j : a, 0);
+    const pl = svgEl("text", { x: pts[pk][0], y: pts[pk][1] - 6, "text-anchor": pk === 0 ? "start" : "middle", class: "tick" });
+    pl.textContent = tickFmt(t.vals[ys[pk]]); pl.setAttribute("style", "fill:var(--ink-2);font:600 11px var(--font-mono)"); svg.appendChild(pl);
+    [[0, "start"], [ys.length - 1, "end"]].forEach(([j, a]) => { const tx = svgEl("text", { x: x(j) + (a === "end" ? 6 : 0), y: H - 4, "text-anchor": a, class: "tick" }); tx.textContent = ys[j] + (j === ys.length - 1 ? "*" : ""); svg.appendChild(tx); });
+    const cross = svgEl("line", { y1: m.t - 6, y2: H - m.b, stroke: "var(--base)", "stroke-width": 1, opacity: 0 });
+    const dot = svgEl("circle", { r: 4, fill: "var(--accent)", stroke: "var(--surface)", "stroke-width": 2, opacity: 0 });
+    svg.appendChild(cross); svg.appendChild(dot);
+    const hit = svgEl("rect", { x: 0, y: 0, width: W, height: H, fill: "transparent" });
+    svg.appendChild(hit);
+    hit.addEventListener("pointermove", e => {
+      const r = svg.getBoundingClientRect(), px = (e.clientX - r.left) * W / r.width;
+      const j = Math.max(0, Math.min(ys.length - 1, Math.round((px - m.l) / ((W - m.l - m.r) / (ys.length - 1)))));
+      cross.setAttribute("x1", pts[j][0]); cross.setAttribute("x2", pts[j][0]); cross.setAttribute("opacity", 1);
+      dot.setAttribute("cx", pts[j][0]); dot.setAttribute("cy", pts[j][1]); dot.setAttribute("opacity", 1);
+      showTip(`<b>${t.label}</b>` + tipRows([[ys[j] + (ys[j] === "2026" ? " (đến 07/10)" : ""), fmt(t.vals[ys[j]] || 0) + " " + t.unit]]), e);
+    });
+    hit.addEventListener("pointerleave", () => { cross.setAttribute("opacity", 0); dot.setAttribute("opacity", 0); hideTip(); });
+    box.appendChild(svg);
+  });
+}
+
+/* ---------- tier board ---------- */
+(function tiers() {
+  const groups = [["Hoạt động", DATA.mods.filter(m => m.group === "act"), m => m.log.users],
+                  ["Tài nguyên", DATA.mods.filter(m => m.group === "res"), m => m.log.users],
+                  ["Câu hỏi", DATA.qtypes, q => val(q.attempts, "2026") + (q.k === "random" ? 1e9 : 0)]];
+  $("tiers").innerHTML = TIERS.map(t => {
+    const gs = groups.map(([g, list, score]) => {
+      const its = list.filter(x => x.tier === t.k).sort((a, b) => score(b) - score(a));
+      return its.length ? `<div class="tier-group"><span class="g">${g}</span><div class="pills">${its.map(x => `<span class="pill">${esc(x.label.replace(/ \(.*\)$/, ""))}<code>${x.k}</code></span>`).join("")}</div></div>` : "";
+    }).join("");
+    return `<div class="tier"><div class="tier-top"><div class="tier-name"><span class="tier-bar" style="background:${t.c}"></span>${t.k}</div><div class="tier-rule">${t.rule}</div></div>${gs}</div>`;
+  }).join("");
+})();
+
+/* ---------- findings ---------- */
+(function findings() {
+  const M = Object.fromEntries(DATA.mods.map(m => [m.k, m])), Q = Object.fromEntries(DATA.qtypes.map(q => [q.k, q]));
+  const qa26 = DATA.qtypes.reduce((s, q) => s + val(q.attempts, "2026"), 0);
+  const modLog = DATA.logmods.filter(r => r.k.startsWith("mod_")).reduce((s, r) => s + r.n, 0);
+  const lg = k => DATA.logmods.find(r => r.k === k) || { n: 0, users: 0 };
+  const core = DATA.qtypes.filter(q => q.tier === "Cốt lõi");
+  const items = [
+    `<b>Quiz và Assignment là trọng tâm.</b> Năm 2026 có ${fmt(M.quiz.inter["2026"])} lượt làm quiz của ${fmt(M.quiz.interU["2026"])} học viên và ${fmt(M.assign.inter["2026"])} bài nộp. Hai module chiếm ${pct(lg("mod_quiz").n + lg("mod_assign").n, modLog)} lượt truy cập hoạt động.`,
+    `<b>Câu hỏi nhiều lựa chọn áp đảo</b> với ${pct(val(Q.multichoice.attempts, "2026"), qa26)} lượt trả lời năm 2026. ${core.length} loại cốt lõi phủ ${pct(core.reduce((s, q) => s + val(q.attempts, "2026"), 0), qa26)}. LMS mới chỉ cần làm tốt các loại này.`,
+    `<b>${pct(DATA.page.all.iframe, DATA.page.all.n)} tài nguyên Trang có iframe nhúng</b> (YouTube, Google Drive…). LMS mới phải cho nhúng nội dung ngoài.`,
+    `<b>H5P tương tác cần được hỗ trợ:</b> ${fmt(M.hvp.created.all)} nội dung, ${fmt(M.hvp.log.users)} người dùng năm 2026, chủ yếu Interactive Video, Fill in the Blanks, Course Presentation.`,
+    `<b>Lesson và SCORM giảm nhưng còn kho nội dung lớn:</b> ${fmt(M.lesson.created.all)} bài Lesson, ${fmt(M.scorm.created.all)} gói SCORM. Lượt dùng thấp, cân nhắc thay Lesson bằng chuỗi Trang + Quiz.`,
+    `<b>Diễn đàn phần lớn là Thông báo tự tạo:</b> ${fmt(DATA.forum.news.forums)} trên ${fmt(M.forum.created.all)} diễn đàn. Thảo luận thật năm 2026 chỉ có ${fmt(Object.entries(DATA.forum).filter(([k]) => k !== "news").reduce((s, [, f]) => s + (f.posts["2026"] || 0), 0))} bài đăng.`,
+    `<b>Nhiều tính năng gần như không dùng:</b> Wiki, Choice, Workshop, VPL, Glossary, Survey, Database, IMS, Chat. LMS mới không cần làm.`,
+  ];
+  $("findings").innerHTML = items.map(t => `<li><span>${t}</span></li>`).join("");
+})();
+
+/* ---------- LMS 2027 requirements ---------- */
+(function reqs() {
+  const M = Object.fromEntries(DATA.mods.map(m => [m.k, m])), Q = Object.fromEntries(DATA.qtypes.map(q => [q.k, q]));
+  const qa26 = DATA.qtypes.reduce((s, q) => s + val(q.attempts, "2026"), 0);
+  const qs = DATA.qset.all, beh = DATA.beh, behAll = Object.values(beh).reduce((s, v) => s + (v.all || 0), 0);
+  const lg = k => DATA.logmods.find(r => r.k === k) || { n: 0, users: 0 };
+  const AP = DATA.assignPlugins, F = DATA.forum, P = DATA.page.all;
+  const disc26 = Object.entries(F).filter(([k]) => k !== "news").reduce((s, [, f]) => s + (f.posts["2026"] || 0), 0);
+  const pdf = DATA.mime.find(x => x.k === "application/pdf"), mimeAll = DATA.mime.reduce((s, x) => s + x.n.all, 0);
+  const url = k => (DATA.url.find(x => x.k === k) || { n: { all: 0 } }).n.all;
+  const core7 = DATA.qtypes.filter(q => q.tier === "Cốt lõi").sort((a, b) => val(b.attempts, "2026") - val(a.attempts, "2026"));
+  const hvpTop = DATA.hvp.slice().sort((a, b) => b.n.all - a.n.all).slice(0, 3).map(h => h.label).join(", ");
+  const drop = DATA.mods.filter(m => m.tier === "Ít dùng" && m.k !== "h5pactivity").map(m => m.label.replace(/ \(.*\)$/, ""));
+  const dropQ = DATA.qtypes.filter(q => q.tier === "Ít dùng").map(q => q.label);
+  const T = { first: ["Bản đầu", "var(--t-core)"], lib: ["Dùng thư viện", "var(--t-imp)"], tech: ["Kỹ thuật", "var(--s2)"], drop: ["Không làm", "var(--t-low)"] };
+  const cards = [
+    { tag: "first", title: "Bài kiểm tra và ngân hàng câu hỏi", ev: `${fmt(M.quiz.inter["2026"])} lượt làm bài · ${fmt(M.quiz.interU["2026"])} học viên · ${fmt(qa26)} lượt trả lời năm 2026`, items: [
+      `<b>${core7.length} loại câu hỏi:</b> ${core7.map(q => `${q.label} ${pct(val(q.attempts, "2026"), qa26)}`).join(", ")}.`,
+      `<b>Ngân hàng câu hỏi có danh mục</b> và rút câu ngẫu nhiên theo danh mục (${fmt(Q.random.quizzes.all)} quiz đang dùng).`,
+      `<b>Câu hỏi có phiên bản:</b> sửa câu hỏi không làm sai bài đã làm.`,
+      `<b>Đảo đáp án</b> (${pct(qs.shuffle, qs.n)} quiz), <b>giới hạn số lần làm</b> (${pct(qs.attemptlimit, qs.n)}), <b>giới hạn thời gian</b> (${pct(qs.timelimit, qs.n)}). Đồng hồ tính ở server.`,
+      `<b>Tự lưu khi đang làm</b>, tự nộp khi hết giờ.`,
+      `<b>Chấm sau khi nộp</b> (${pct(beh.deferredfeedback.all, behAll)} quiz). Màn hình chấm tay cho câu tự luận.`] },
+    { tag: "first", title: "Bài tập", ev: `${fmt(M.assign.inter["2026"])} bài nộp · ${fmt(M.assign.interU["2026"])} học viên năm 2026`, items: [
+      `<b>Nộp tệp</b> (${fmt(AP["assignsubmission:file"])} bài tập bật) và <b>nộp văn bản trực tuyến</b> (${fmt(AP["assignsubmission:onlinetext"])}).`,
+      `<b>Bình luận</b> trên bài nộp.`,
+      `<b>Chấm điểm kèm nhận xét</b> (${fmt(AP["assignfeedback:comments"])} bài tập), trả tệp phản hồi.`,
+      `<b>Hạn nộp</b>, nộp muộn, nhắc hạn.`] },
+    { tag: "first", title: "Nội dung học", ev: `${fmt(M.page.created.all)} trang · ${fmt(M.resource.created.all)} tệp · ${fmt(M.url.created.all)} liên kết`, items: [
+      `<b>Trang soạn thảo rich text</b>, cho nhúng iframe từ danh sách domain được phép (${pct(P.iframe, P.n)} trang có iframe).`,
+      `<b>Xem PDF ngay trên trang</b> (${pct(pdf.n.all, mimeAll)} tệp là PDF). Tải về với Word, PowerPoint, Excel.`,
+      `<b>Liên kết ngoài</b>, chủ yếu Google Drive (${fmt(url("google drive/docs"))}) và YouTube (${fmt(url("youtube"))}).`,
+      `<b>Thư mục tệp</b>, <b>đoạn văn bản</b> giữa các mục, <b>sách nhiều chương</b> dạng đơn giản.`] },
+    { tag: "first", title: "Thông báo và thảo luận", ev: `${fmt(F.news.forums)} kênh thông báo · ${fmt(disc26)} bài thảo luận năm 2026`, items: [
+      `<b>Kênh thông báo mỗi khóa</b>, gửi kèm email hoặc thông báo đẩy.`,
+      `<b>Thảo luận đơn giản</b>: chủ đề, trả lời, đính kèm tệp.`] },
+    { tag: "first", title: "Điểm và tiến độ", ev: `${fmt(lg("gradereport_user").n)} lượt xem điểm · ${fmt(lg("gradereport_user").users)} người năm 2026`, items: [
+      `<b>Sổ điểm</b> tự lấy điểm từ quiz, bài tập, H5P, SCORM.`,
+      `<b>Học viên xem điểm</b> của mình, giảng viên xem cả lớp và <b>xuất Excel</b>.`,
+      `<b>Theo dõi hoàn thành</b> từng mục và tiến độ khóa học.`] },
+    { tag: "first", title: "Khóa học và người dùng", ev: `${fmt(DATA.formats.weeks)} khóa dạng tuần · mở ${fmt(DATA.kpi.courses["2025"])} khóa năm 2025`, items: [
+      `<b>Khóa học theo tuần</b> hoặc theo chủ đề.`,
+      `<b>Ghi danh thủ công</b> (${fmt(DATA.enrol.manual)} khóa) và <b>theo cohort</b> (${fmt(DATA.enrol.cohort)} khóa).`,
+      `<b>Đăng nhập SSO</b> qua portal LHU.`,
+      `<b>Nhân bản khóa</b> từ khóa mẫu cho mỗi học kỳ.`,
+      `<b>Vai trò</b>: giảng viên, trợ giảng, học viên.`] },
+    { tag: "lib", title: "H5P tương tác", ev: `${fmt(M.hvp.created.all)} nội dung · ${fmt(M.hvp.log.users)} người dùng năm 2026`, items: [
+      `<b>Trình phát H5P có sẵn</b> (h5p-standalone), không tự viết.`,
+      `Ưu tiên ${hvpTop}.`,
+      `Ghi điểm về sổ điểm qua xAPI.`] },
+    { tag: "lib", title: "SCORM", ev: `${fmt(M.scorm.created.all)} gói · ${fmt(M.scorm.interU["2026"])} học viên năm 2026`, items: [
+      `<b>Trình phát SCORM có sẵn</b> (scorm-again).`,
+      `Ghi điểm và trạng thái hoàn thành.`] },
+    { tag: "tech", title: "Yêu cầu kỹ thuật", ev: `Cao điểm là mùa thi`, items: [
+      `<b>Chịu tải mùa thi:</b> hàng nghìn người làm và nộp bài cùng lúc.`,
+      `<b>Không eval công thức</b> do người dùng nhập.`,
+      `<b>Lọc HTML ở server</b>, iframe theo danh sách cho phép, bật CSP.`,
+      `<b>Tệp tải lên, H5P, SCORM</b> phục vụ từ domain riêng.`,
+      `<b>Phân quyền theo context</b> (hệ thống, khóa, mục) ngay từ đầu.`,
+      `<b>Chính sách lưu nhật ký truy cập</b> rõ ràng.`] },
+    { tag: "drop", cls: "drop", title: "Không làm", ev: `Ít dùng theo số liệu`, items: [
+      `<b>Hoạt động:</b> ${drop.join(", ")}.`,
+      `<b>Loại câu hỏi:</b> ${dropQ.join(", ")}.`,
+      `<b>Bài học (Lesson):</b> ${fmt(M.lesson.log.users)} người dùng năm 2026. Thay bằng chuỗi Trang + Quiz có điều kiện mở.`,
+      `<b>Chế độ quiz thích ứng</b>, mật khẩu quiz, Safe Exam Browser.`] },
+  ];
+  $("reqs").innerHTML = cards.map(c => `<details class="req"><summary>
+    <span class="req-tag"><span class="sw" style="background:${T[c.tag][1]}"></span>${T[c.tag][0]}</span>
+    <span class="tt">${c.title}</span><span class="ev">${c.ev}</span></summary>
+    <ul>${c.items.map(i => `<li>${i}</li>`).join("")}</ul></details>`).join("");
+})();
+
+/* ---------- activity / resource rankings ---------- */
+const MOD_METRICS = [["created", "Tạo mới"], ["courses", "Số khóa học"], ["compl", "Học viên hoàn thành"], ["inter", "Tương tác"]];
+const MOD_METRIC_DESC = { created: "Số mục được thêm vào khóa học", courses: "Số khóa học khác nhau có dùng", compl: "Số học viên khác nhau có hoàn thành", inter: "Lượt tương tác (đơn vị khác nhau theo module)" };
+function modRows(group, metric) {
+  return DATA.mods.filter(m => m.group === group).map(m => ({
+    label: m.label, code: m.k, v: val(m[metric]), color: tierColor(m.tier),
+    tip: [["Phân loại", m.tier], [MOD_METRICS.find(x => x[0] === metric)[1] + (metric === "inter" && m.interLabel ? ` (${m.interLabel})` : ""), fmt(val(m[metric]))],
+          ["Tạo mới", fmt(val(m.created))], ["Số khóa học", fmt(val(m.courses))], ["Người dùng 2026 (log)", fmt(m.log.users)]]
+  }));
+}
+function renderAct() {
+  $("act-sub").textContent = MOD_METRIC_DESC[state.act] + ", " + yLabel();
+  hbar($("act-bars"), modRows("act", state.act), { share: state.act !== "courses" && state.act !== "compl" });
+}
+function renderRes() {
+  $("res-sub").textContent = MOD_METRIC_DESC[state.res] + ", " + yLabel();
+  hbar($("res-bars"), modRows("res", state.res === "inter" ? "created" : state.res), { share: state.res === "created" });
+}
+
+/* resource stacked columns */
+const RES_SERIES = [["page", "var(--s1)"], ["resource", "var(--s2)"], ["url", "var(--s3)"], ["label", "var(--s4)"], ["folder", "var(--s5)"], ["book", "var(--s6)"], ["imscp", "var(--s-other)"]];
+function stackCols(el, legendEl, series, label) {
+  el.innerHTML = "";
+  legendEl.innerHTML = series.map(s => `<span class="key"><span class="sw" style="background:${s.c}"></span>${s.label}</span>`).join("");
+  const ys = YEARS, W = Math.max(el.clientWidth, 300), H = 300, m = { l: 44, r: 8, t: 22, b: 26 };
+  const tot = ys.map(y => series.reduce((s, x) => s + val(x.vals, y), 0));
+  const ticks = niceTicks(Math.max(...tot)), top = ticks[ticks.length - 1];
+  const sy = v => (v / top) * (H - m.t - m.b);
+  const band = (W - m.l - m.r) / ys.length, bw = Math.min(40, band * 0.62);
+  const svg = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": label });
+  ticks.forEach(t => {
+    const yy = H - m.b - sy(t);
+    svg.appendChild(svgEl("line", { x1: m.l, x2: W - m.r, y1: yy, y2: yy, class: t === 0 ? "baseline" : "gridline" }));
+    const tx = svgEl("text", { x: m.l - 8, y: yy + 4, "text-anchor": "end", class: "tick" }); tx.textContent = tickFmt(t); svg.appendChild(tx);
+  });
+  ys.forEach((y, i) => {
+    const cx = m.l + band * i + band / 2, x0 = cx - bw / 2;
+    const g = svgEl("g", { opacity: state.year === "all" || state.year === y ? 1 : 0.28 });
+    let acc = 0;
+    const segs = series.map(s => ({ ...s, v: val(s.vals, y) })).filter(s => s.v > 0);
+    segs.forEach((s, j) => {
+      const y0 = H - m.b - sy(acc), h = sy(s.v); acc += s.v;
+      const isTop = j === segs.length - 1, gap = j > 0 ? 2 : 0, hh = Math.max(h - gap, 0.5), yTop = y0 - h;
+      let shape;
+      if (isTop && hh > 4) { const r = 4; shape = svgEl("path", { d: `M${x0},${y0 - gap} V${yTop + r} Q${x0},${yTop} ${x0 + r},${yTop} H${x0 + bw - r} Q${x0 + bw},${yTop} ${x0 + bw},${yTop + r} V${y0 - gap} Z`, fill: s.c }); }
+      else shape = svgEl("rect", { x: x0, y: yTop, width: bw, height: hh, fill: s.c });
+      bindTip(shape, () => `<b>${s.label} · ${y}${y === "2026" ? "*" : ""}</b>` + tipRows([["Tạo mới", fmt(s.v)], ["Tỷ lệ trong năm", pct(s.v, tot[i])], ["Tổng năm " + y, fmt(tot[i])]]));
+      g.appendChild(shape);
+    });
+    const lab = svgEl("text", { x: cx, y: H - m.b - sy(tot[i]) - 7, "text-anchor": "middle", class: "tick" });
+    lab.setAttribute("style", "fill:var(--ink-2);font:600 11px var(--font-mono)"); lab.textContent = tickFmt(tot[i]);
+    if (band >= 34) g.appendChild(lab);
+    const xl = svgEl("text", { x: cx, y: H - 6, "text-anchor": "middle", class: "tick" }); xl.textContent = (band >= 34 ? y : "’" + y.slice(2)) + (y === "2026" ? "*" : ""); g.appendChild(xl);
+    svg.appendChild(g);
+  });
+  el.appendChild(svg);
+}
+function renderResStack() {
+  const M = Object.fromEntries(DATA.mods.map(m => [m.k, m]));
+  stackCols($("res-stack"), $("res-legend"), RES_SERIES.map(([k, c]) => ({ label: M[k].label, c, vals: M[k].created })), "Tài nguyên tạo mới theo năm và loại");
+}
+
+/* activity vs resource mix + usage table */
+const GROUPS = [["act", "Hoạt động", "var(--s1)"], ["res", "Tài nguyên", "var(--s2)"]];
+const groupVals = g => { const o = {}; DATA.mods.filter(m => m.group === g).forEach(m => { for (const y in m.created) o[y] = (o[y] || 0) + m.created[y]; }); return o; };
+function renderMix() {
+  const gv = GROUPS.map(([g, l, c]) => ({ g, l, c, vals: groupVals(g) }));
+  const tot = gv.reduce((s, x) => s + val(x.vals), 0);
+  $("mix-sub").textContent = "Số mục tạo " + yLabel();
+  $("mix-nums").innerHTML = gv.map(x => `<div class="mixnum"><span class="l"><span class="sw" style="background:${x.c}"></span>${x.l}</span><span class="v">${fmt(val(x.vals))}</span><span class="muted" style="font-size:13px">${pct(val(x.vals), tot)} tổng số</span></div>`).join("");
+  const bar = $("mix-bar"); bar.innerHTML = "";
+  gv.forEach(x => { const d = document.createElement("div"); d.style.flex = `${val(x.vals)} 1 0`; d.style.background = x.c; d.tabIndex = 0;
+    bindTip(d, () => `<b>${x.l}</b>` + tipRows([["Số mục", fmt(val(x.vals))], ["Tỷ lệ", pct(val(x.vals), tot)]])); bar.appendChild(d); });
+  const a = val(gv[0].vals), r = val(gv[1].vals);
+  $("mix-note").textContent = r ? `Tỷ lệ hoạt động : tài nguyên = ${fmt1(a / r)} : 1. Trung bình ${fmt1((a + r) / DATA.kpi.courses.all)} mục mỗi khóa học (toàn thời gian, ${fmt(DATA.kpi.courses.all)} khóa).` : "";
+  stackCols($("mix-stack"), $("mix-legend"), gv.map(x => ({ label: x.l, c: x.c, vals: x.vals })), "Hoạt động và tài nguyên tạo mới theo năm");
+  renderUsage();
+}
+function renderUsage() {
+  const nc = DATA.kpi.courses.all;
+  $("ut-sub").textContent = `Số lượng và tỷ lệ theo ${yLabel()}. Tỷ lệ khóa học dùng tính trên ${fmt(nc)} khóa học. Tần suất theo nhật ký năm 2026.`;
+  const head = `<thead><tr><th>Loại</th><th>Số lượng</th><th>% trong nhóm</th><th>% tổng số</th><th>Khóa học có dùng</th><th>Người dùng 2026</th><th>Lượt truy cập 2026</th><th>Lượt / mục</th><th>Lượt / người dùng</th></tr></thead>`;
+  const all = DATA.mods.reduce((s, m) => s + val(m.created), 0);
+  const body = GROUPS.map(([g, gl, gc]) => {
+    const list = DATA.mods.filter(m => m.group === g).sort((a, b) => val(b.created) - val(a.created) || b.created.all - a.created.all);
+    const gt = list.reduce((s, m) => s + val(m.created), 0);
+    const gLog = list.reduce((s, m) => s + m.log.n, 0);
+    const rows = list.map(m => {
+      const cp = m.courses.all / nc;
+      return `<tr><td>${esc(m.label)}<code>${m.k}</code></td><td>${fmt(val(m.created))}</td><td>${pct(val(m.created), gt)}</td><td>${pct(val(m.created), all)}</td>
+        <td><span class="cb">${fmt1(100 * cp)}%<span class="tr"><i style="width:${Math.max(100 * cp, 1)}%"></i></span></span></td>
+        <td>${m.log.users ? fmt(m.log.users) : "–"}</td><td>${m.log.n ? fmt(m.log.n) : "–"}</td>
+        <td>${m.log.n ? fmt1(m.log.n / m.created.all) : "–"}</td><td>${m.log.users ? fmt1(m.log.n / m.log.users) : "–"}</td></tr>`;
+    }).join("");
+    return `<tr class="grp"><td colspan="9"><span class="key"><span class="sw" style="background:${gc}"></span>${gl} · ${fmt(gt)} mục · ${pct(gt, all)} · ${fmt(gLog)} lượt truy cập 2026</span></td></tr>` + rows;
+  }).join("");
+  $("ut").innerHTML = head + "<tbody>" + body + "</tbody>";
+}
+
+/* page embed */
+function renderPage() {
+  const p = DATA.page[state.year] || { n: 0 };
+  $("page-sub").textContent = "Trang được cập nhật " + yLabel();
+  $("page-big").textContent = p.n ? pct(p.iframe, p.n) : "–";
+  $("page-text").innerHTML = p.n ? `trong ${fmt(p.n)} trang có thẻ <code>&lt;iframe&gt;</code> nhúng nội dung ngoài.` : `Không có trang nào cho ${yLabel()}.`;
+  $("page-facts").innerHTML = [["Có iframe", p.iframe], ["Nhắc tới YouTube", p.youtube], ["Có tệp đính kèm", p.files], ["Có thẻ video/mp4", p.video]]
+    .map(([l, v]) => `<div class="fact"><div class="v">${fmt(v || 0)}</div><div class="l">${l}</div></div>`).join("");
+}
+
+/* mime, url, storage */
+function renderMime() {
+  $("mime-sub").textContent = "Tệp trong module Tệp (File), " + yLabel();
+  const gb = state.mime === "gb";
+  hbar($("mime-bars"), DATA.mime.map(x => ({ label: x.label, v: val(gb ? x.gb : x.n),
+      tip: [["Số tệp", fmt(val(x.n))], ["Dung lượng", fmt1(val(x.gb)) + " GB"], ["MIME", esc(x.k)]] })).sort((a, b) => b.v - a.v).slice(0, 10),
+    { share: true, valFmt: gb ? v => fmt1(v) + " GB" : fmt });
+}
+function renderUrl() {
+  $("url-sub").textContent = "Tài nguyên URL theo năm cập nhật, " + yLabel();
+  const rows = DATA.url.map(x => ({ label: x.label, v: val(x.n), color: x.k === "other" ? "var(--s-other)" : "var(--accent)" }));
+  hbar($("url-bars"), rows, { share: true, unit: "Liên kết" });
+}
+function renderStorage() {
+  $("sto-sub").textContent = `Tổng ${fmt1(DATA.storageTotal * 1024)} GB tệp, toàn thời gian`;
+  const names = { assignsubmission_file: "Bài nộp dạng tệp", mod_resource: "Tài nguyên Tệp", question: "Hình ảnh trong câu hỏi", mod_hvp: "Nội dung H5P", user: "Tệp riêng của người dùng", mod_scorm: "Gói SCORM", mod_assign: "Đề bài Assignment", mod_lesson: "Lesson", backup: "Bản sao lưu khóa học", mod_folder: "Thư mục" };
+  hbar($("sto-bars"), DATA.storage.map(s => ({ label: names[s.k] || s.k, code: s.k, v: s.gb, tip: [["Dung lượng", fmt1(s.gb) + " GB"], ["Số tệp", fmt(s.n)]] })), { valFmt: v => fmt1(v) + " GB" });
+}
+
+/* questions */
+const Q_METRICS = [["attempts", "Lượt trả lời"], ["created", "Câu hỏi tạo mới"], ["quizzes", "Số quiz dùng"], ["courses", "Số khóa học"]];
+const Q_DESC = { attempts: "Lượt học viên trả lời câu hỏi", created: "Câu hỏi thêm vào ngân hàng", quizzes: "Số quiz khác nhau có loại câu hỏi này, theo năm tạo quiz", courses: "Số khóa học khác nhau, theo năm tạo quiz" };
+function renderQ() {
+  $("q-sub").textContent = Q_DESC[state.q] + ", " + yLabel();
+  hbar($("q-bars"), DATA.qtypes.map(q => ({ label: q.label, code: q.k, v: val(q[state.q]), color: tierColor(q.tier),
+    tip: [["Phân loại", q.tier], ["Lượt trả lời", fmt(val(q.attempts))], ["Câu hỏi tạo mới", fmt(val(q.created))], ["Số quiz dùng", fmt(val(q.quizzes))], ["Số khóa học", fmt(val(q.courses))]] })),
+    { share: state.q === "attempts" || state.q === "created" });
+  const tot = DATA.qtypes.reduce((s, q) => s + val(q.attempts), 0), mc = val(DATA.qtypes.find(q => q.k === "multichoice").attempts);
+  $("mc-eyebrow").textContent = "Nhiều lựa chọn · " + yLabel();
+  $("mc-big").textContent = tot ? pct(mc, tot) : "–";
+  $("mc-text").textContent = tot ? `lượt trả lời là câu hỏi nhiều lựa chọn (${fmt(mc)} trên ${fmt(tot)} lượt).` : `Chưa có lượt trả lời cho ${yLabel()}.`;
+}
+const BEH = [["deferredfeedback", "Phản hồi sau khi nộp", "var(--s1)"], ["adaptive", "Thích ứng", "var(--s2)"], ["adaptivenopenalty", "Thích ứng, không trừ điểm", "var(--s3)"], ["immediatefeedback", "Phản hồi ngay", "var(--s4)"]];
+function renderBeh() {
+  const vals = BEH.map(([k, l, c]) => ({ k, l, c, v: val(DATA.beh[k]) })), tot = vals.reduce((s, x) => s + x.v, 0);
+  $("beh-sub").textContent = `${fmt(tot)} quiz tạo ${yLabel()}`;
+  const bar = $("beh-bar"); bar.innerHTML = "";
+  vals.filter(x => x.v).forEach(x => {
+    const d = document.createElement("div"); d.style.flex = `${x.v} 1 0`; d.style.background = x.c; d.tabIndex = 0;
+    bindTip(d, () => `<b>${x.l}</b> <span style="opacity:.7">${x.k}</span>` + tipRows([["Số quiz", fmt(x.v)], ["Tỷ lệ", pct(x.v, tot)]]));
+    bar.appendChild(d);
+  });
+  $("beh-legend").innerHTML = vals.map(x => `<span class="key"><span class="sw" style="background:${x.c}"></span>${x.l} <b class="num">${pct(x.v, tot)}</b></span>`).join("");
+  const s = DATA.qset[state.year] || {};
+  $("qset-sub").textContent = `Tỷ lệ trên ${fmt(s.n || 0)} quiz, ${yLabel()}`;
+  $("qset-facts").innerHTML = [["Đảo thứ tự đáp án", s.shuffle], ["Giới hạn số lần làm", s.attemptlimit], ["Giới hạn thời gian", s.timelimit], ["Đặt mật khẩu", s.pwd], ["Safe Exam Browser", s.browsersec]]
+    .map(([l, v]) => `<div class="fact"><div class="v">${s.n ? pct(v || 0, s.n) : "–"}</div><div class="l">${l} · ${fmt(v || 0)} quiz</div></div>`).join("");
+}
+function renderHvp() {
+  $("hvp-sub").textContent = "Nội dung mod_hvp tạo " + yLabel();
+  hbar($("hvp-bars"), DATA.hvp.map(h => ({ label: h.label, code: "H5P." + h.label, v: val(h.n) })), { share: true, unit: "Nội dung" });
+}
+
+/* forum + log (fixed) */
+function renderFixed() {
+  const L = { mod_quiz: "Quiz", mod_assign: "Assignment", mod_page: "Trang", mod_forum: "Diễn đàn", mod_resource: "Tệp", mod_url: "Liên kết URL", gradereport_user: "Xem điểm (học viên)", gradereport_overview: "Tổng quan điểm", mod_folder: "Thư mục", mod_hvp: "H5P", mod_scorm: "SCORM", mod_book: "Sách", mod_lesson: "Lesson", mod_feedback: "Phản hồi", mod_lti: "LTI", mod_chat: "Chat", gradereport_grader: "Bảng điểm (giảng viên)", mod_h5pactivity: "H5P (core)" };
+  hbar($("log-bars"), DATA.logmods.filter(r => r.users >= 100).map(r => ({ label: L[r.k] || r.k, code: r.k, v: r.users, color: r.k.startsWith("grade") ? "var(--s-other)" : "var(--accent)", tip: [["Người dùng", fmt(r.users)], ["Lượt truy cập", fmt(r.n)]] })), { unit: "Người dùng" });
+  const F = DATA.forum, FT = { general: "Thảo luận chung", news: "Thông báo", single: "Một chủ đề", eachuser: "Mỗi người một chủ đề", qanda: "Hỏi và đáp", blog: "Dạng blog", social: "Mạng xã hội" };
+  $("forum-facts").innerHTML = [[fmt(F.news.forums), "diễn đàn Thông báo tự tạo"], [fmt(F.news.posts.all || 0), "bài đăng trong diễn đàn Thông báo"], [fmt(F.general.forums), "diễn đàn thảo luận chung"], [fmt(F.general.posts.all), "bài đăng thảo luận"]]
+    .map(([v, l]) => `<div class="fact"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
+  renderForumBars();
+}
+function renderForumBars() {
+  const F = DATA.forum, FT = { general: "Thảo luận chung", news: "Thông báo", single: "Một chủ đề", eachuser: "Mỗi người một chủ đề", qanda: "Hỏi và đáp", blog: "Dạng blog", social: "Mạng xã hội" };
+  $("forum-sub").textContent = "Bài đăng theo kiểu diễn đàn, " + yLabel() + ". Moodle tự tạo một diễn đàn Thông báo cho mỗi khóa.";
+  hbar($("forum-bars"), Object.entries(F).map(([k, f]) => ({ label: FT[k] || k, code: k, v: val(f.posts), tip: [["Bài đăng", fmt(val(f.posts))], ["Số diễn đàn", fmt(f.forums)], ["Số khóa học", fmt(f.courses)]] })), { share: true, unit: "Bài đăng" });
+}
+
+/* ---------- tables ---------- */
+function yearTable(title, rows, opt = {}) {
+  const head = `<tr><th>${opt.first || "Loại"}</th>${YEARS.map(y => `<th>${y}${y === "2026" ? "*" : ""}</th>`).join("")}<th class="all">Tất cả</th></tr>`;
+  const body = rows.filter(r => r.vals && r.vals.all).sort((a, b) => b.vals.all - a.vals.all)
+    .map(r => `<tr><td>${esc(r.label)}${r.code ? `<code>${esc(r.code)}</code>` : ""}</td>${YEARS.map(y => `<td>${r.vals[y] ? (opt.f || fmt)(r.vals[y]) : ""}</td>`).join("")}<td class="all">${(opt.f || fmt)(r.vals.all)}</td></tr>`).join("");
+  return `<details class="tbl"><summary>${title}</summary><div class="tbl-wrap"><table><thead>${head}</thead><tbody>${body}</tbody></table></div>${opt.note ? `<div class="tbl-note">${opt.note}</div>` : ""}</details>`;
+}
+(function tables() {
+  const A = DATA.mods.filter(m => m.group === "act"), R = DATA.mods.filter(m => m.group === "res");
+  const mr = (list, f) => list.map(m => ({ label: m.label, code: m.k, vals: m[f] }));
+  const qr = f => DATA.qtypes.map(q => ({ label: q.label, code: q.k, vals: q[f] }));
+  const distinct = "Cột Tất cả là số khác nhau trên toàn thời gian, không bằng tổng các năm.";
+  $("tables").innerHTML = [
+    yearTable("Hoạt động: số mục tạo mới", mr(A, "created"), { first: "Hoạt động" }),
+    yearTable("Hoạt động: số khóa học có dùng", mr(A, "courses"), { first: "Hoạt động", note: distinct }),
+    yearTable("Hoạt động: lượt tương tác của học viên", A.filter(m => m.inter.all).map(m => ({ label: m.label + " · " + m.interLabel, code: m.k, vals: m.inter })), { first: "Hoạt động" }),
+    yearTable("Hoạt động: học viên có tương tác", A.filter(m => m.inter.all).map(m => ({ label: m.label, code: m.k, vals: m.interU })), { first: "Hoạt động", note: distinct }),
+    yearTable("Hoạt động: học viên có hoàn thành", mr(A, "compl"), { first: "Hoạt động", note: distinct }),
+    yearTable("Tài nguyên: số mục tạo mới", mr(R, "created"), { first: "Tài nguyên" }),
+    yearTable("Tài nguyên: số khóa học có dùng", mr(R, "courses"), { first: "Tài nguyên", note: distinct }),
+    yearTable("Tài nguyên: học viên đã xem/hoàn thành", mr(R, "compl"), { first: "Tài nguyên", note: distinct }),
+    yearTable("Tài nguyên: định dạng tệp (số tệp)", DATA.mime.map(x => ({ label: x.label, vals: x.n })), { first: "Định dạng" }),
+    yearTable("Tài nguyên: định dạng tệp (GB)", DATA.mime.map(x => ({ label: x.label, vals: x.gb })), { first: "Định dạng", f: v => fmt1(v) }),
+    yearTable("Tài nguyên: trang đích liên kết URL", DATA.url.map(x => ({ label: x.label, vals: x.n })), { first: "Trang đích" }),
+    yearTable("Câu hỏi: lượt trả lời", qr("attempts"), { first: "Loại câu hỏi" }),
+    yearTable("Câu hỏi: câu hỏi tạo mới trong ngân hàng", qr("created"), { first: "Loại câu hỏi" }),
+    yearTable("Câu hỏi: số câu đưa vào quiz (năm tạo quiz)", qr("slots"), { first: "Loại câu hỏi" }),
+    yearTable("Câu hỏi: số quiz có dùng (năm tạo quiz)", qr("quizzes"), { first: "Loại câu hỏi", note: distinct }),
+    yearTable("Câu hỏi: số khóa học có dùng (năm tạo quiz)", qr("courses"), { first: "Loại câu hỏi", note: distinct }),
+    yearTable("Quiz: chế độ làm bài", BEH.map(([k, l]) => ({ label: l, code: k, vals: DATA.beh[k] })), { first: "Chế độ" }),
+    yearTable("H5P: loại nội dung", DATA.hvp.map(h => ({ label: h.label, vals: h.n })), { first: "Loại H5P" }),
+    yearTable("Khóa học và tài khoản mới", [{ label: "Khóa học mới", vals: DATA.kpi.courses }, { label: "Tài khoản mới", vals: DATA.kpi.users }], { first: "Chỉ số" }),
+  ].join("");
+})();
+
+/* ---------- wiring ---------- */
+seg($("act-metric"), MOD_METRICS, "act", renderAct);
+seg($("res-metric"), MOD_METRICS.slice(0, 3), "res", renderRes);
+seg($("q-metric"), Q_METRICS, "q", renderQ);
+seg($("mime-metric"), [["n", "Số tệp"], ["gb", "GB"]], "mime", renderMime);
+["a", "r", "q"].forEach(s => tierLegend($("tier-legend-" + s)));
+function renderYearViews() { renderMix(); renderAct(); renderRes(); renderResStack(); renderPage(); renderMime(); renderUrl(); renderQ(); renderBeh(); renderHvp(); renderForumBars(); }
+(function theme() {
+  const b = $("theme-btn"), root = document.documentElement;
+  const apply = d => { if (d) root.setAttribute("data-theme", "dark"); else root.removeAttribute("data-theme"); b.setAttribute("aria-pressed", d); b.textContent = d ? "Giao diện sáng" : "Giao diện tối"; };
+  let d = false; try { d = localStorage.getItem("lms-theme") === "dark"; } catch (e) {}
+  apply(d);
+  b.onclick = () => { d = !d; apply(d); try { localStorage.setItem("lms-theme", d ? "dark" : "light"); } catch (e) {} };
+})();
+(function foldLink() {
+  const f = $("lms-fold");
+  const openIf = () => { if (location.hash === "#lms-2027") f.open = true; };
+  document.querySelectorAll('a[href="#lms-2027"]').forEach(a => a.addEventListener("click", () => { f.open = true; }));
+  addEventListener("hashchange", openIf); openIf();
+})();
+renderTrend(); renderFixed(); renderStorage(); renderYearViews();
+let rt; let lastW = innerWidth;
+addEventListener("resize", () => { if (innerWidth === lastW) return; lastW = innerWidth; clearTimeout(rt); rt = setTimeout(() => { renderTrend(); renderResStack(); renderMix(); }, 150); });
+addEventListener("scroll", hideTip, { passive: true });
+</script>
+</body>
+</html>
